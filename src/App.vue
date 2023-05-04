@@ -1,14 +1,13 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import {computed, ref, watch} from 'vue'
 import router from '@/router'
 import MessageFilter from '@/components/organisms/MessageFilter.vue'
-import SearchFilter from '@/SearchFilter.vue'
+import SearchFilter from '@/components/molecules/SearchFilter.vue'
 
 const loggedIn = ref(true)
 const canFilter = computed(
   () =>
-    router.currentRoute.value.fullPath === '/messages' ||
-    router.currentRoute.value.fullPath === '/messages/'
+    router.currentRoute.value.path === '/messages'
 )
 
 const canSearch = computed(
@@ -87,9 +86,9 @@ const navOpen = ref(false)
     </div>
     <nav id="navigation" v-if="navOpen">
       <ul :class="{hidden: !navOpen }">
-        <li>home</li>
-        <li>messages</li>
-        <li>account</li>
+        <li> <router-link to="/">home</router-link> </li>
+        <li> <router-link to="/messages">messages</router-link> </li>
+        <li> <router-link to="/account">account</router-link> </li>
       </ul>
     </nav>
     <MessageFilter v-if="canFilter" />

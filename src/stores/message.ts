@@ -24,6 +24,10 @@ export const useMessageStore = defineStore('message', () => {
     text: string
   }
 
+  interface Filters {
+    groups: Group[] | null
+  }
+
   const groups = ref<Group[]>([
     {
       id: 1,
@@ -234,7 +238,7 @@ export const useMessageStore = defineStore('message', () => {
     }
   ])
 
-  const filters = { groups: ['All Groups'] }
+  const filters = ref<Filters>({ groups: null })
   const search = ref('')
   const selectedGroup = ref<Group | null>(null)
   return {

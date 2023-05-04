@@ -17,10 +17,11 @@ const props = defineProps({
   },
   value: {
     required: true,
-    type: String || null
+    type: String
   }
 })
-const newVal = ref<null | string>(null)
+const newVal = ref<string>(props.value)
+// const newVal = ref<null | string>(null)
 const emit = defineEmits(['update:value'])
 const label = computed(() => props.name.replace(/(?=[A-Z])/, ' '))
 const handleChange = () => emit('update:value', newVal.value)

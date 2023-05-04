@@ -1,29 +1,52 @@
 <script lang="ts" setup>
 import FilterPill from '@/components/atoms/FilterPill.vue'
-import {useMessageStore} from '@/stores/message'
-import {computed, ref} from 'vue'
+import { useMessageStore } from '@/stores/message'
+import { computed, ref, watch } from 'vue'
+import router from '@/router'
+
+interface Organisation {
+  name: string
+}
+
+interface Group {
+  id: number
+  name: string
+  alias: string
+  colour: string
+  organisation: Organisation
+}
 
 const messageStore = useMessageStore()
-const all = computed(() => messageStore.filters.groups.includes('All Groups'))
+if (router.currentRoute.value.query) {
+  let q = router.currentRoute.value.query
+  if (q.groups) console.log(q.groups)
+  messageStore.filters.groups = messageStore.groups.filter((x) => x.id === parseInt('' + q.groups))
+}
+const all = computed(() => !messageStore.filters.groups)
 const handleGroupFilter = (ev: Event) => {
   const target = ev.target as HTMLInputElement
   if (target.value === 'All Groups') {
     if (!target.checked) {
-      messageStore.filters.groups = messageStore.groups.filter((x) => x).map(x => x.name)
+      messageStore.filters.groups = messageStore.groups.filter((x) => x)
     } else {
-      messageStore.filters.groups = ['All Groups']
+      messageStore.filters.groups = null
     }
+    router.replace(router.currentRoute.value.path)
   } else {
+    console.log(target.value)
     setFilter(target.value, target.checked)
   }
 }
-const setFilter = (value: string, isSelected: boolean) => {
-  if (value === 'All Groups') return
+const setFilter = (value: Group, isSelected: boolean) => {
+  if (value.name === 'All Groups') return
   if (isSelected) {
-    messageStore.filters.groups.push(value)
+    messageStore.filters.groups?.push(value)
+    router.replace(router.currentRoute.value.path)
   } else {
-    const i = messageStore.filters.groups.indexOf(value)
-    messageStore.filters.groups.splice(i, 1)
+    if (messageStore.filters.groups) {
+      const i = messageStore.filters.groups.indexOf(value)
+      if (i >= 0) messageStore.filters.groups.splice(i, 1)
+    }
   }
 }
 const filterBoxOpen = ref(false)
@@ -59,30 +82,26 @@ const filterBoxOpen = ref(false)
         />
       </div>
     </div>
-      <div
-        v-if="filterBoxOpen"
-        id="filter-box"
-        class="w-full p-4"
-      >
-        <fieldset class="flex flex-col" @change="handleGroupFilter">
-          <legend>Groups</legend>
-          <label for="all-groups">
-            All Groups
-            <input id="all-groups" :checked="all" name="group" type="checkbox" value="All Groups" />
-          </label>
-          <label v-for="(a, index) in messageStore.groups" :key="index" :for="a">
-            {{ a.name }}
-            <input
-              :id="a.name"
-              :checked="all || messageStore.filters.groups.includes(a.name)"
-              :disabled="all"
-              :value="a.name"
-              name="group"
-              type="checkbox"
-            />
-          </label>
-        </fieldset>
-      </div>
+    <div v-if="filterBoxOpen" id="filter-box" class="w-full p-4">
+      <fieldset class="flex flex-col" @change="handleGroupFilter">
+        <legend>Groups</legend>
+        <label for="all-groups">
+          All Groups
+          <input id="all-groups" :checked="all" name="group" type="checkbox" value="All Groups" />
+        </label>
+        <label v-for="(a, index) in messageStore.groups" :key="index" :for="a">
+          {{ a.name }}
+          <input
+            :id="a.name"
+            :checked="all || messageStore.filters.groups.includes(a)"
+            :disabled="all"
+            :value="a"
+            name="group"
+            type="checkbox"
+          />
+        </label>
+      </fieldset>
+    </div>
   </div>
 </template>
 <style scoped>

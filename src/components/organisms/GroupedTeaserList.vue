@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {useMessageStore} from "@/stores/message";
-import LargeButton from "@/components/atoms/LargeButton.vue";
+import LargeButton from "@/components/atoms/AppButton.vue";
 
 defineProps({
   type: {
@@ -24,7 +24,7 @@ const messageStore = useMessageStore()
     </template>
     <template v-else>
       <div
-          class="bg-gradient-to-r from-gray-300 to-gray-200 text-gray-500 text-lg text-center mx-auto w-10/12 rounded-md p-1 shadow-gray-400 shadow-md my-2"
+          class="bg-gradient-to-r from-gray-300 to-gray-200 text-gray-500 text-lg text-center mx-auto w-10/12 rounded-md py-3 shadow-gray-400 shadow-md my-2"
       >
         Join Group
       </div>

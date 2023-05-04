@@ -37,7 +37,7 @@ const setSelected = (el: any) => {
 <template>
   <li class="text-center pb-002 last:pb-0 bg-gradient-to-r from-c-db to-c-lb w-4/5 mx-auto">
     <template v-if="link">
-      <router-link :to="'/organisation/' + item.id">
+      <router-link :to="'/organisations/' + (item.id ?? 1)">
         <div
           :class="showChecked || selected ? 'justify-between' : 'justify-center'"
           class="bg-white py-3 flex items-center px-4"

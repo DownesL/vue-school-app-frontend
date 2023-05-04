@@ -50,12 +50,24 @@ const router = createRouter({
     {
       path: '/groups/:id',
       name: 'specificGroup',
-      component: () => import('@/views/GroupsView.vue')
+      component: () => import('@/views/GroupDetailView.vue' +
+      '')
+    },
+    {
+      path: '/groups/:id/join',
+      name: 'joinGroup',
+      component: () => import('@/views/JoinGroupView.vue' +
+      '')
     },
     {
       path: '/organisations',
       name: 'organisations',
       component: () => import('@/views/OrganisationsView.vue')
+    },,
+    {
+      path: '/organisations/:id',
+      name: 'specificOrganisation',
+      component: () => import('@/views/OrganisationDetailView.vue')
     },
   ]
 })

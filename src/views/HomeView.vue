@@ -2,7 +2,7 @@
 import PageTeaser from '@/components/molecules/PageTeaser.vue'
 import {useMessageStore} from '@/stores/message'
 import MessageTeaser from '@/components/molecules/MessageTeaser.vue'
-import LargeButton from '@/components/atoms/LargeButton.vue'
+import LargeButton from '@/components/atoms/AppButton.vue'
 
 const messageStore = useMessageStore()
 </script>

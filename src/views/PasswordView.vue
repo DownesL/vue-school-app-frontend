@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import LargeButton from '@/components/atoms/LargeButton.vue'
+import LargeButton from '@/components/atoms/AppButton.vue'
 </script>
 <template>
   <section

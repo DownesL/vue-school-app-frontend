@@ -1,13 +1,19 @@
 <script lang="ts" setup>
 import PageTeaser from '@/components/molecules/PageTeaser.vue'
 import {useMessageStore} from '@/stores/message'
-import LargeButton from '@/components/atoms/LargeButton.vue'
+import LargeButton from '@/components/atoms/AppButton.vue'
 import GroupTeaser from '@/components/molecules/GroupTeaser.vue'
 import OrganisationTeaser from "@/components/molecules/OrganisationTeaser.vue";
 
 const messageStore = useMessageStore()
 </script>
 <template>
+  <PageTeaser v-if="messageStore.groups.length">
+    <template v-slot:title>User Name</template>
+    <template v-slot:content>
+      <p>useremail@email.com</p>
+    </template>
+  </PageTeaser>
   <PageTeaser>
     <template v-slot:title>My Groups</template>
     <template v-if="!messageStore.organisations.length" v-slot:content>
