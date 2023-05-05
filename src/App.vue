@@ -3,7 +3,9 @@ import {computed, ref, watch} from 'vue'
 import router from '@/router'
 import MessageFilter from '@/components/organisms/MessageFilter.vue'
 import SearchFilter from '@/components/molecules/SearchFilter.vue'
-
+import {apiAxios} from "@/instances/apiAxios.js";
+import * as process from "process";
+import AppButton from "@/components/atoms/AppButton.vue";
 const loggedIn = ref(true)
 const canFilter = computed(
   () =>
@@ -17,7 +19,21 @@ const canSearch = computed(
     router.currentRoute.value.fullPath === '/organisations' ||
     router.currentRoute.value.fullPath === '/organisations/'
 )
+console.log(process.env)
 const navOpen = ref(false)
+const doLogin = () => {
+    apiAxios.get('/sanctum/csrf-cookie', {baseURL: 'http://localhost:8080'})
+        .then(() =>
+            apiAxios.post('/login', {
+              email: 'lukas@mail.com',
+              password: 'Azerty123'
+            })
+        )
+        .then(() =>
+            apiAxios.get('/test')
+        )
+        .catch((err: any) => console.error(err))
+}
 </script>
 
 <template>
@@ -93,6 +109,7 @@ const navOpen = ref(false)
     </nav>
     <MessageFilter v-if="canFilter" />
     <SearchFilter v-if="canSearch" />
+    <AppButton @click="doLogin">login</AppButton>
   </header>
   <main>
     <RouterView />
