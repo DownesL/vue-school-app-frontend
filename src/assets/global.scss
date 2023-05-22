@@ -1,0 +1,57 @@
+/* COLOURS */
+$purple: #8669D7;
+$purple-light: #A489E1;
+$blue: #6995D7;
+$red: #DF2525;
+$white: #FFF;
+$gray: #727272;
+$dark-gray: #3E3E3E;
+$shadow-dark: rgba(13, 13, 13, 0.4);
+$dark: #232323;
+$black: #000;
+$border-radius: 4px;
+$transition: all 250ms ease-in-out;
+
+/* In Use */
+
+$text: $white;
+$background: $dark;
+$input-border: $gray;
+
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+@mixin shadow-dark {
+  box-shadow: 0px 4px 12px 4px $shadow-dark;
+}
+
+@mixin text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+@mixin text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+/* DISTANCES */
+$a: 0.25rem;
+$b: 0.5rem;
+$c: 0.75rem;
+$d: 1.0rem;
+$e: 1.25rem;
+$f: 1.5rem;
+$g: 1.75rem;
+$h: 2.0rem;
+$i: 2.25rem;
+$j: 2.5rem;

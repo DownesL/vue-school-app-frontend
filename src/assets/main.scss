@@ -1,0 +1,31 @@
+@import './base.css';
+
+h1 {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  margin-block: $d;
+}
+
+.full-w {
+  width: 100%;
+}
+
+h1, h2, h3, h4 {
+  color: $white;
+}
+
+main,
+body {
+  transition: all 350ms ease-in-out;
+  background: $background;
+  color: $white;
+}
+.ck > * {
+  color: black;
+}
+
+button {
+  border: none;
+  background: $background;
+  cursor: pointer;
+}

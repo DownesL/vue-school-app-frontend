@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import FilterPill from '@/components/atoms/FilterPill.vue'
-import { useMessageStore } from '@/stores/message'
-import { computed, ref, watch } from 'vue'
+import { useGroupStore } from '@/stores/group'
+import { computed, ref } from 'vue'
 import router from '@/router'
 
 interface Organisation {
@@ -15,37 +15,37 @@ interface Group {
   colour: string
   organisation: Organisation
 }
-
-const messageStore = useMessageStore()
+// TODO: FIX THIS SHIT
+const groupStore = useGroupStore()
 if (router.currentRoute.value.query) {
   let q = router.currentRoute.value.query
-  if (q.groups) console.log(q.groups)
-  messageStore.filters.groups = messageStore.groups.filter((x) => x.id === parseInt('' + q.groups))
+  groupStore.filters.groups = groupStore.userGroups
+    .filter((x) => q.groups?.includes(x.name))
+    .map((x) => x.name)
 }
-const all = computed(() => !messageStore.filters.groups)
+const all = computed(() => !groupStore.filters.groups)
 const handleGroupFilter = (ev: Event) => {
   const target = ev.target as HTMLInputElement
   if (target.value === 'All Groups') {
     if (!target.checked) {
-      messageStore.filters.groups = messageStore.groups.filter((x) => x)
+      groupStore.filters.groups = groupStore.userGroups.filter((x) => x).map((x) => x.name)
     } else {
-      messageStore.filters.groups = null
+      groupStore.filters.groups = null
     }
     router.replace(router.currentRoute.value.path)
   } else {
-    console.log(target.value)
     setFilter(target.value, target.checked)
   }
 }
-const setFilter = (value: Group, isSelected: boolean) => {
-  if (value.name === 'All Groups') return
+const setFilter = (value: string, isSelected: boolean) => {
+  if (value === 'All Groups') return
   if (isSelected) {
-    messageStore.filters.groups?.push(value)
+    groupStore.filters.groups?.push(value)
     router.replace(router.currentRoute.value.path)
   } else {
-    if (messageStore.filters.groups) {
-      const i = messageStore.filters.groups.indexOf(value)
-      if (i >= 0) messageStore.filters.groups.splice(i, 1)
+    if (groupStore.filters.groups) {
+      const i = groupStore.filters.groups.indexOf(value)
+      if (i >= 0) groupStore.filters.groups.splice(i, 1)
     }
   }
 }
@@ -69,13 +69,13 @@ const filterBoxOpen = ref(false)
           <title>Filter</title>
           <path
             d="M14 12V19.88C14.04 20.18 13.94 20.5 13.71 20.71C13.32 21.1 12.69 21.1 12.3 20.71L10.29 18.7C10.06 18.47 9.96 18.16 10 17.87V12H9.97L4.21 4.62C3.87 4.19 3.95 3.56 4.38 3.22C4.57 3.08 4.78 3 5 3H19C19.22 3 19.43 3.08 19.62 3.22C20.05 3.56 20.13 4.19 19.79 4.62L14.03 12H14Z"
-            fill="black"
+            fill="currentColor"
           />
         </svg>
       </button>
       <div class="flex gap-2">
         <FilterPill
-          v-for="(value, i) in messageStore.filters.groups"
+          v-for="(value, i) in groupStore.filters.groups"
           :key="i"
           :filter="value"
           @click="setFilter(value, false)"
@@ -89,13 +89,13 @@ const filterBoxOpen = ref(false)
           All Groups
           <input id="all-groups" :checked="all" name="group" type="checkbox" value="All Groups" />
         </label>
-        <label v-for="(a, index) in messageStore.groups" :key="index" :for="a">
+        <label v-for="(a, index) in groupStore.groups" :key="index" :for="a">
           {{ a.name }}
           <input
             :id="a.name"
-            :checked="all || messageStore.filters.groups.includes(a)"
+            :checked="all || groupStore.filters.groups.includes(a.name)"
             :disabled="all"
-            :value="a"
+            :value="a.name"
             name="group"
             type="checkbox"
           />
@@ -104,7 +104,10 @@ const filterBoxOpen = ref(false)
     </div>
   </div>
 </template>
-<style scoped>
+<style scoped lang="scss">
+button {
+  color:  $text;
+}
 .v-enter-active,
 .v-leave-active {
   transition: all 350ms ease-in-out;

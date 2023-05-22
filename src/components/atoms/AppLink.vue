@@ -1,39 +1,34 @@
 <script lang="ts" setup>
 defineProps({
-  disabled: {
-    type: Boolean,
+  url: {
     required: false,
-    default: false
+    type: Object,
+    default: null
   }
 })
 </script>
 <template>
-  <button :disabled="disabled">
+  <router-link :to="url">
     <slot></slot>
-  </button>
+  </router-link>
 </template>
 
 <style lang="scss" scoped>
-button {
+a {
   @include text-lg;
   @include shadow-dark;
+  text-decoration: none;
   text-align: center;
   width: 100%;
   padding-block: $c;
-  margin: $b auto;
+  margin-block: $b;
   color: $black;
   background: $purple-light;
   border-radius: $border-radius;
   transition: $transition;
-  font-weight: 600;
   &:hover {
     background: $purple;
-    //color: $white;
-  }
-  &[disabled] {
-    background: $gray;
-    cursor: not-allowed;
+    color: $black;
   }
 }
-
 </style>

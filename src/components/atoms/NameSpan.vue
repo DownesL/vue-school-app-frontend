@@ -7,5 +7,5 @@ defineProps({
 })
 </script>
 <template>
-  <span>{{ group.alias ? group.alias : `${group.name} • ${group.organisation.name}` }}</span>
+  <span>{{ group.alias ? group.alias : `${group.name}${group.organisation ? ' • ' + group.organisation.name : ''}` }}</span>
 </template>
