@@ -4,17 +4,6 @@ import { useGroupStore } from '@/stores/group'
 import { computed, ref } from 'vue'
 import router from '@/router'
 
-interface Organisation {
-  name: string
-}
-
-interface Group {
-  id: number
-  name: string
-  alias: string
-  colour: string
-  organisation: Organisation
-}
 // TODO: FIX THIS SHIT
 const groupStore = useGroupStore()
 if (router.currentRoute.value.query) {

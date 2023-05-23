@@ -3,24 +3,9 @@ import { defineStore } from 'pinia'
 import { apiAxios } from '@/instances/apiAxios'
 
 export const useGroupStore = defineStore('group', () => {
-  interface Organisation {
-    name: string
-  }
-
-  interface Group {
-    id: number
-    name: string
-    alias: string
-    colour: string
-    organisation: Organisation
-  }
-
-  interface Filters {
-    groups: string[] | null
-  }
-
   const userGroups = ref<Group[]>([])
   const nonUserGroups = ref<Group[]>([])
+  const selectedGroup = ref<Group | null>(null)
   const allGroups = ref<any>()
 
   const getAllGroups = async () => {
@@ -55,6 +40,14 @@ export const useGroupStore = defineStore('group', () => {
       console.error(err)
     }
   }
+  const setAttributes = async (id: string, payload: { colour: string; alias: string }) => {
+    try {
+      const { data: gr } = await apiAxios.post(`/groups/${id}/attributes`, payload)
+      selectedGroup.value = gr.data
+    } catch (err) {
+      console.error(err)
+    }
+  }
   const createGroup = async (payload: {
     name: string
     description: string
@@ -70,10 +63,16 @@ export const useGroupStore = defineStore('group', () => {
       return e?.response?.data
     }
   }
+  const joinRequest = async (payload: { id: string; motivation: string }) => {
+    try {
+      await apiAxios.post(`/groups/${payload.id}/join-request`, payload)
+    } catch (e: any) {
+      return e?.response?.data
+    }
+  }
 
   const filters = ref<Filters>({ groups: null })
   const search = ref<string>('')
-  const selectedGroup = ref<Group | null>(null)
   return {
     search,
     filters,
@@ -85,6 +84,8 @@ export const useGroupStore = defineStore('group', () => {
     getUserGroups,
     getNonUserGroups,
     getGroupInfo,
-    createGroup
+    createGroup,
+    setAttributes,
+    joinRequest
   }
 })

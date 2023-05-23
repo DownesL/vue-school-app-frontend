@@ -3,9 +3,9 @@ import { defineStore } from 'pinia'
 import { apiAxios } from '@/instances/apiAxios'
 
 export const useOrganisationStore = defineStore('organisation', () => {
-  const userOrgans = ref<Object[]>([])
-  const nonUserOrgans = ref<Object[]>([])
-  const allOrgans = ref<any>()
+  const userOrgans = ref<Organisation[]>([])
+  const nonUserOrgans = ref<Organisation[]>([])
+  const allOrgans = ref<Organisation[]>([])
 
   const getAllOrgans = async () => {
     try {
@@ -47,7 +47,13 @@ export const useOrganisationStore = defineStore('organisation', () => {
       return e?.response?.data
     }
   }
-
+  const joinRequest = async (payload: { id: string; motivation: string }) => {
+    try {
+      await apiAxios.post(`/organisations/${payload.id}/join-request`, payload)
+    } catch (e: any) {
+      return e?.response?.data
+    }
+  }
   const search = ref<string>('')
   const selectedOrgan = ref<Object | null>(null)
   return {
@@ -60,6 +66,7 @@ export const useOrganisationStore = defineStore('organisation', () => {
     getUserOrgans,
     getNonUserOrgans,
     getOrganInfo,
-    createOrgan
+    createOrgan,
+    joinRequest
   }
 })

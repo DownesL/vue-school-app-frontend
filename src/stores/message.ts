@@ -2,34 +2,11 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { apiAxios } from '@/instances/apiAxios'
 
-export const useMessageStore = defineStore('message', async () => {
-  interface Organisation {
-    name: string
-  }
-
-  interface Group {
-    id: number
-    name: string
-    alias: string
-    colour: string
-    organisation: Organisation
-  }
-
-  interface Message {
-    id: number
-    title: string
-    date: any
-    group: Group
-    important: Boolean
-    read: Boolean
-    text: string
-  }
-
-  interface Filters {
-    groups: string[] | null
-  }
+export const useMessageStore = defineStore('message', () => {
 
   const userMessages = ref<Message[]>([])
+  const recentMessages = ref<Message[]>([])
+  const selectedMessage = ref<Message | null>(null)
   const getUserMessages = async () => {
     try {
       const { data: msg } = await apiAxios.get('/messages')
@@ -38,7 +15,6 @@ export const useMessageStore = defineStore('message', async () => {
       console.error(err)
     }
   }
-  const recentMessages = ref<Message[]>([])
   const getRecentMessages = async () => {
     try {
       const { data: msg } = await apiAxios.get('/messages/recent')
@@ -47,7 +23,6 @@ export const useMessageStore = defineStore('message', async () => {
       console.error(err)
     }
   }
-  const selectedMessage = ref<Message | null>(null)
   const getSpecificMessage = async (id: string) => {
     try {
       const { data: msg } = await apiAxios.get(`/messages/${id}`)
@@ -56,16 +31,7 @@ export const useMessageStore = defineStore('message', async () => {
       console.error(err)
     }
   }
-
-  const createMessage = async (payload: {
-    name: string
-    description: string
-    important: boolean
-    groups: string[]
-    message: string
-    file_message: File | null
-    id: string
-  }) => {
+  const createMessage = async (payload: Message) => {
     try {
       const { data: d } = await apiAxios.post(`/organisations/${payload.id}/messages`, payload, {
         headers: {
@@ -77,7 +43,6 @@ export const useMessageStore = defineStore('message', async () => {
       return e?.response?.data
     }
   }
-
   const setRead = async (id: string) => {
     try {
       await apiAxios.post(`/messages/${id}/read`)

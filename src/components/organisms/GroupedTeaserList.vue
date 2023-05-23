@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import PageTeaser from '@/components/molecules/PageTeaser.vue'
 import AppButton from '@/components/atoms/AppButton.vue'
-import { ref, watch } from 'vue'
+import { PropType, ref, watch } from 'vue'
 import SearchFilter from '@/components/atoms/SearchFilter.vue'
+import JoinForm from '@/components/molecules/JoinForm.vue'
 
 defineProps({
   type: {
@@ -11,7 +12,7 @@ defineProps({
   },
   selected: {
     required: false,
-    type: Object || null
+    type: Object as PropType<Group | Organisation>
   },
   search: {
     required: true,
@@ -19,7 +20,6 @@ defineProps({
   }
 })
 const emit = defineEmits(['update:search'])
-const motivation = ref<string>('')
 const nexted = ref<boolean>(false)
 const searchValue = ref<string>('')
 watch(searchValue, () => {
@@ -33,29 +33,28 @@ watch(searchValue, () => {
       <slot name="longList" />
       <slot name="shortList" />
     </ul>
-    <AppButton :disabled="!selected?.id" class="mx-auto" @click="() => (nexted = true)">
+    <AppButton
+      :aria-expanded="nexted"
+      :disabled="!selected?.id"
+      aria-controls="#joinForm"
+      class="mx-auto"
+      @click="() => (nexted = true)"
+    >
       Join {{ type }}
     </AppButton>
   </template>
-  <PageTeaser v-if="nexted">
-    <template v-slot:title> Join {{ selected?.name }}</template>
+  <PageTeaser v-if="nexted && selected" id="#joinForm">
+    <template v-slot:title> Join {{ selected.name }}</template>
     <template v-slot:content>
-      <button @click="() => (nexted = false)">X</button>
-      <form method="post" novalidate>
-        <div class="flex flex-col mx-auto mt-2 mb-4">
-          <label for="motivation">Motivation</label>
-          <p class="text-sm text-gray-700">Fill in your motivation, e.g.'Phil's parent'</p>
-          <textarea
-            id="motivation"
-            v-model="motivation"
-            class="px-3 py-2 border border-black border-opacity-40 rounded-md"
-            cols="30"
-            name="motivation"
-            rows="5"
-          />
-          <AppButton class="w-full" type="submit">Send Request</AppButton>
-        </div>
-      </form>
+      <button
+        :aria-expanded="nexted"
+        aria-controls="#joinForm"
+        class="close-btn"
+        @click="() => (nexted = false)"
+      >
+        X
+      </button>
+      <JoinForm :selected="selected" :type="type" />
     </template>
   </PageTeaser>
 </template>

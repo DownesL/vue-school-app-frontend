@@ -10,9 +10,10 @@ const props = defineProps({
 
 const messageStore = useMessageStore()
 messageStore.getSpecificMessage(props.id)
+messageStore.setRead(props.id)
 </script>
 <template>
   <h1>{{ messageStore.selectedMessage?.name }}</h1>
   <h2>{{ messageStore.selectedMessage?.group_name }}</h2>
-  <p>{{ messageStore.selectedMessage?.content }}</p>
+  <div v-html="messageStore.selectedMessage?.content"></div>
 </template>

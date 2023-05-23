@@ -1,16 +1,15 @@
-<script setup>
+<script lang="ts" setup>
 import { computed } from 'vue'
 import GroupedTeaserList from '@/components/organisms/GroupedTeaserList.vue'
 import GroupedTeaser from '@/components/molecules/GroupedTeaser.vue'
 import { useOrganisationStore } from '@/stores/organisation'
-import GroupTeaser from "@/components/molecules/GroupedTeaser.vue";
 
 const organisationStore = useOrganisationStore()
 organisationStore.getAllOrgans()
 organisationStore.getUserOrgans()
 organisationStore.getNonUserOrgans()
 const filteredGroups = computed(() =>
-  organisationStore.nonUserOrgans?.filter((x) =>
+  organisationStore.nonUserOrgans?.filter((x: Organisation) =>
     x.name.match(new RegExp(`.*${organisationStore.search}.*`, 'i'))
   )
 )
@@ -37,7 +36,7 @@ const filteredGroups = computed(() =>
         :key="g.id"
         :item="g"
         :show-checked="true"
-        @click="() => organisationStore.selectedOrgan = g"
+        @click="() => (organisationStore.selectedOrgan = g)"
       />
     </template>
   </GroupedTeaserList>

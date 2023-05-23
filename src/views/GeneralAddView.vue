@@ -3,13 +3,13 @@ import InputField from '@/components/atoms/InputField.vue'
 import { computed, reactive, ref } from 'vue'
 import AppButton from '@/components/atoms/AppButton.vue'
 import PageTeaser from '@/components/molecules/PageTeaser.vue'
-import AppTextArea from '@/views/AppTextArea.vue'
+import AppTextArea from '@/components/atoms/AppTextArea.vue'
 import { useOrganisationStore } from '@/stores/organisation'
 import router from '@/router'
 import { useGroupStore } from '@/stores/group'
 
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import ToggleInput from '@/views/ToggleInput.vue'
+import ToggleInput from '@/components/atoms/ToggleInput.vue'
 import { useMessageStore } from '@/stores/message'
 
 const props = defineProps({
@@ -108,7 +108,7 @@ const tryCreateGroup = async () => {
     organisation_id: parseInt(props.id)
   })
   if (msg?.id) {
-    router.push({ name: 'specificGroup', params: { id: msg.id } })
+    //router.push({ name: 'specificGroup', params: { id: msg.id } })
   } else {
     nameError.value = msg.errors.name ? msg.errors.name[0] : ''
     descriptionError.value = msg.errors.description ? msg.errors.description[0] : ''
@@ -125,9 +125,9 @@ const tryCreateMessages = async () => {
     description: description.value,
     important: important.value,
     groups: groups.value,
-    message: message.value,
+    content: message.value,
     file_message: message_file.value ?? null,
-    id: props.id
+    id: parseInt(props.id)
   })
   if (msg?.id) {
     router.push({ name: 'specificOrganisation', params: { id: msg.id } })

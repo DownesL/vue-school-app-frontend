@@ -41,13 +41,18 @@ groupStore.getUserGroups()
       </template>
     </PageTeaser>
 
-    <!--    <PageTeaser>
+    <PageTeaser>
       <template v-slot:title> Flagged Messages</template>
       <template v-slot:content>
+        <template v-if="messageStore.taggedMessages?.length">
+          <ul>
+            <MessageTeaser v-for="m in messageStore.recentMessages" :key="m.id" :item="m" />
+          </ul>
+        </template>
         <p class="text-center my-2">You have no flagged messages!</p>
         <AppLink :url="'/messages/flagged'">View flagged messages</AppLink>
       </template>
-    </PageTeaser>-->
+    </PageTeaser>
   </template>
 </template>
 <style lang="scss" scoped>

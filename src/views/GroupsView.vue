@@ -2,7 +2,6 @@
 import GroupedTeaserList from '@/components/organisms/GroupedTeaserList.vue'
 import GroupTeaser from '@/components/molecules/GroupedTeaser.vue'
 import { useGroupStore } from '@/stores/group'
-import SearchFilter from '@/components/atoms/SearchFilter.vue'
 import { computed } from 'vue'
 
 const groupStore = useGroupStore()
@@ -21,8 +20,8 @@ const filteredGroups = computed(() =>
   <h1>Join Group</h1>
   <GroupedTeaserList
     v-model:search="groupStore.search"
-    :type="`Group`"
     v-model:selected="groupStore.selectedGroup"
+    :type="`Group`"
   >
     <template v-slot:longList>
       <GroupTeaser
@@ -39,7 +38,7 @@ const filteredGroups = computed(() =>
         :key="g.id"
         :item="g"
         :show-checked="true"
-        @click="() => groupStore.selectedGroup = g"
+        @click="() => (groupStore.selectedGroup = g)"
       />
     </template>
   </GroupedTeaserList>

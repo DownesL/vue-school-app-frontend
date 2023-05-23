@@ -1,29 +1,29 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import {computed, PropType} from 'vue'
 
 const props = defineProps({
   item: {
     required: true,
-    type: Object
+    type: Object as PropType<Message>
   }
 })
-const personalAttr = computed(() => ({
+const personalAttr = computed<PersonalAttributes>(() => ({
   ...props.item?.group_attr,
   ...props.item?.message_attr
 }))
 </script>
 <template>
   <li>
-    <div :style="{ borderColor: personalAttr?.colour ?? 'white' }">
-      <h3 :class="personalAttr?.read ? 'font-light' : 'font-bold'">
+    <div :style="{ borderColor: personalAttr?.colour ?? 'transparent' }">
+      <h3 :class="{ unread: !personalAttr.read }">
         {{ personalAttr?.alias ? personalAttr.alias : item['group_name'] }}
       </h3>
-      <p :class="personalAttr?.read ? 'font-light' : 'font-bold'">
+      <p :class="{ unread: !personalAttr.read }">
         {{ item.name }}
       </p>
-      <div v-if="item.important" :class="{ 'text-gray-400': personalAttr?.read }">
+      <div v-if="item.important" :class="{ unread: !personalAttr.read }">
         <svg
-          :class="{ 'font-bold': !item.read }"
+          :class="{ unread: !personalAttr.read }"
           fill="none"
           height="20"
           viewBox="0 0 20 20"
@@ -50,6 +50,19 @@ const personalAttr = computed(() => ({
   </li>
 </template>
 <style lang="scss" scoped>
+.unread {
+  font-weight: 800;
+  color: $white;
+}
+
+svg {
+  color: $white-dark;
+
+  &.unread {
+    color: $white;
+  }
+}
+
 a {
   span {
     @include sr-only;
@@ -89,6 +102,7 @@ li {
 
     h3,
     p {
+      color: $gray;
       grid-row-start: 1;
       overflow: hidden;
       text-overflow: ellipsis;

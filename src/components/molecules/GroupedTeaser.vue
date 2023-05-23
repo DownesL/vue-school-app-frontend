@@ -1,25 +1,13 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import {computed, PropType} from 'vue'
 import NameSpan from '@/components/atoms/NameSpan.vue'
 import { useGroupStore } from '@/stores/group'
 
-interface Organisation {
-  id: number
-  name: string
-}
-
-interface Group {
-  id: number
-  name: string
-  alias: string
-  colour: string
-  organisation?: Organisation
-}
 
 const props = defineProps({
   item: {
     required: true,
-    type: Object
+    type: Object as PropType<Group | Organisation>
   },
   showChecked: {
     required: false,
@@ -71,7 +59,7 @@ const setSelected = (el: any) => {
     <template v-else>
       <button
         :class="showChecked ? 'between' : 'center'"
-        :title="item.name + ' ' + (item.organisation?.name ? item.organisation?.name : '')"
+        :title="item.name + ' ' + (item.organisation_name ?? '')"
         @click="setSelected(item)"
       >
         <NameSpan :group="item" />

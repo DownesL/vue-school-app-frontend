@@ -15,7 +15,7 @@ apiAxios.interceptors.response.use(
       if (error.response?.status === 404) {
           router.push({name: 'Notfound'})
       } else if (error.response?.status === 401 || error.response?.status === 403) {
-          router.push({name: 'Unauthorized'})
+          //router.push({name: 'Unauthorized'})
       }
     return Promise.reject(error)
   }

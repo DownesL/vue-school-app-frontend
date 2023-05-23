@@ -16,9 +16,9 @@ const applyFilter = (arr: any[]) =>
   arr?.filter((x) => {
     let include = true
 
-    // if (messageStore.filters.groups?.length) {
-    //   include = include && messageStore.filters.groups.includes(x.group.name)
-    // }
+    if (messageStore.filters.groups?.length) {
+      include = include && messageStore.filters.groups.includes(x.group.name)
+    }
 
     return include
   })
