@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useLoadingStore } from '@/stores/loading'
+import AppLoading from '@/components/atoms/AppLoading.vue'
+const loadingStore = useLoadingStore()
 
 const navOpen = ref(false)
 </script>
@@ -88,7 +91,8 @@ const navOpen = ref(false)
     <!--    <AppButton @click="doLogin">login</AppButton>-->
   </header>
   <main>
-    <RouterView />
+    <RouterView v-if="!loadingStore.loading" />
+    <AppLoading v-else />
   </main>
 </template>
 
@@ -100,15 +104,18 @@ nav {
     flex-direction: column;
     padding: 0;
     align-items: center;
+
     li {
       border-radius: $border-radius;
       margin-block: $a;
       width: 100%;
       border: 3px solid transparent;
+
       &:hover {
         //background-color: $dark-gray;
         border: 3px dashed $purple;
       }
+
       a {
         color: $text;
         font-size: 2rem;

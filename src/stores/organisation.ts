@@ -6,6 +6,7 @@ export const useOrganisationStore = defineStore('organisation', () => {
   const userOrgans = ref<Organisation[]>([])
   const nonUserOrgans = ref<Organisation[]>([])
   const allOrgans = ref<Organisation[]>([])
+  const isLoading = ref<boolean>(false)
 
   const getAllOrgans = async () => {
     try {

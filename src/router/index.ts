@@ -110,13 +110,13 @@ const router = createRouter({
     {
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
-      component: () => import('@/views/WelcomeView.vue'),
+      component: () => import('@/views/errors/404View.vue'),
       meta: { title: 'Page Not Found | UpToDate' }
     },
     {
       path: '/unauthorized',
       name: 'Unauthorized',
-      component: () => import('@/views/WelcomeView.vue'),
+      component: () => import('@/views/errors/403View.vue'),
       meta: { title: 'Unauthorized | UpToDate' }
     }
   ]

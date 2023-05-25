@@ -1,22 +1,39 @@
 import axios from 'axios'
-import router from "@/router";
+import router from '@/router'
+import { useLoadingStore } from '@/stores/loading'
 
 const apiAxios = axios.create({
   baseURL: `${import.meta.env.VITE_BASE_URL}/api`,
   withCredentials: true
 })
 
+apiAxios.interceptors.request.use(
+  (request: any) => {
+    // useLoadingStore().$patch({ loading: true })
+    return request
+  },
+  (error) => {
+    if (useLoadingStore().loading) {
+      // useLoadingStore().$patch({ loading: true })
+    }
+    return Promise.reject(error)
+  }
+)
+
 // add interceptors (optional)
 apiAxios.interceptors.response.use(
-  function (response: any) {
+  (response: any) => {
+    // useLoadingStore().$patch({ loading: false })
     return response
   },
-  function (error: any) {
-      if (error.response?.status === 404) {
-          router.push({name: 'Notfound'})
-      } else if (error.response?.status === 401 || error.response?.status === 403) {
-          //router.push({name: 'Unauthorized'})
-      }
+  (error: any) => {
+    // useLoadingStore().$patch({ loading: false })
+    if (error.response?.status === 404) {
+      router.push({ name: 'Notfound' })
+    } else if (error.response?.status === 403) {
+      console.log(error)
+      router.push({ name: 'Unauthorized' })
+    }
     return Promise.reject(error)
   }
 )

@@ -27,7 +27,9 @@ declare global {
     id: number
     created_at: string
     message_attr?: MessageAttributes
-    group_attr?: GroupAttributes
+    group_attr?: GroupAttributes,
+    group_name?: string,
+    organisation_name?: string
   }
 
   interface Organisation {
