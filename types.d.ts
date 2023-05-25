@@ -6,7 +6,7 @@ declare global {
   }
 
   interface MessageAttributes {
-    read?: boolean
+    read?: number
     flagged?: number
   }
 

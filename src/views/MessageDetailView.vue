@@ -15,7 +15,7 @@ messageStore.getSpecificMessage(props.id)
 
 const flagged = ref(0)
 
-watchEffect(() => (flagged.value = messageStore.selectedMessage?.message_attr?.flagged ?? false))
+watchEffect(() => (flagged.value = messageStore.selectedMessage?.message_attr?.flagged ?? 0))
 </script>
 <template>
   <h1>{{ messageStore.selectedMessage?.name }}</h1>

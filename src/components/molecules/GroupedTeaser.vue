@@ -31,7 +31,7 @@ const selected = computed(() => groupStore.selectedGroup === props.item)
 
 const setSelected = (el: any) => {
   if (props.isJoined) return
-  if (groupStore.selectedGroup === el) groupStore.selectedGroup = null
+  if (groupStore.selectedGroup === el) groupStore.selectedGroup = undefined
   else groupStore.selectedGroup = el
 }
 </script>

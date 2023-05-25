@@ -171,7 +171,7 @@ const config = reactive({
             Groups <span class="error" role="alert">{{ groupsError }}</span>
           </legend>
           <label v-for="g in organisationStore.selectedOrgan?.groups" :key="g.id" :title="g.name">
-            <input :id="g.id" v-model="groups" :value="g.name" name="group" type="checkbox" />
+            <input :id="g.name" v-model="groups" :value="g.name" name="group" type="checkbox" />
             {{ g.name }}
           </label>
         </fieldset>
