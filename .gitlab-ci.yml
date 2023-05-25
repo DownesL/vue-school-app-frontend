@@ -3,8 +3,8 @@ build site:
   image: node:lts
   stage: build
   script:
-    - npm install --progress=false
-    - npm run build
+    - pnpm install
+    - pnpm run build
   artifacts:
     expire_in: 1 week
     paths:
@@ -13,12 +13,12 @@ build site:
 lint:
   stage: test
   script:
-    - npm i
+    - pnpm i
     - npx eslint . --ext .vue,.js,.jsx,.cjs,.mjs --ignore-path .gitignore
     - npx prettier --check src/
 
 vitest:
   stage: test
   script:
-    - npm i
-    - npm run test
+    - pnpm i
+    - pnpm run test
