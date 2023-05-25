@@ -25,7 +25,7 @@ declare global {
     content: string
     file_message: File | null
     id: number
-    created_at: string
+    created_at?: string
     message_attr?: MessageAttributes
     group_attr?: GroupAttributes,
     group_name?: string,

@@ -115,7 +115,6 @@ const tryCreateGroup = async () => {
     confirmation.value = false
   }
 }
-
 const tryCreateMessages = async () => {
   if (!validateMessage()) {
     confirmation.value = false
@@ -155,11 +154,8 @@ const tryCreate = () => {
   }
 }
 
-// State
-
-
 const config = reactive({
-  toolbar: ['undo', 'redo', '|', 'heading', '|', 'bold', 'italic', 'underline', '|']
+  toolbar: ['undo', 'redo', '|', 'heading', '|', 'bold', 'italic', '|']
 })
 </script>
 <template>
