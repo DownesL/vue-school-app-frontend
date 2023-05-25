@@ -1,28 +1,20 @@
 #https://about.gitlab.com/blog/2017/09/12/vuejs-app-gitlab/
 
+image: node:lts
+
 before_script:
   - corepack enable
-  - corepack prepare pnpm@latest-7 --activate
-  - pnpm config set store-dir .pnpm-store
-
-build site:
-  image: node:lts
-  stage: build
-  script:
-    - pnpm install
-    - pnpm run build
-  artifacts:
-    expire_in: 1 week
-    paths:
-      - dist
+  - corepack prepare pnpm@latest-8 --activate
 
 lint:
   stage: test
   script:
+    - pnpm i
     - npx eslint . --ext .vue,.js,.jsx,.cjs,.mjs --ignore-path .gitignore
     - npx prettier --check src/
 
 vitest:
   stage: test
   script:
+    - pnpm i 
     - npm run test
