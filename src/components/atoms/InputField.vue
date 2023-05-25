@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {computed} from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   name: {
@@ -36,14 +36,14 @@ const handleChange = (e: any) => emit('update:value', e.target.value)
       <span>{{ label }} </span> <span role="alert">{{ error }}</span>
     </label>
     <input
-        :id="name"
-        :class="{ 'error': error }"
-        :name="name"
-        :required="required"
-        :type="type"
-        :value="value"
-        autocomplete="false"
-        @input="handleChange"
+      :id="name"
+      :class="{ error: error }"
+      :name="name"
+      :required="required"
+      :type="type"
+      :value="value"
+      autocomplete="false"
+      @input="handleChange"
     />
   </div>
 </template>

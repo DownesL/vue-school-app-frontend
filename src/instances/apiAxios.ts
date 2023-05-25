@@ -7,7 +7,7 @@ const apiAxios = axios.create({
   withCredentials: true
 })
 
-const { get, update, isLoading } = useLoading()
+const { get, update } = useLoading()
 
 apiAxios.interceptors.request.use(
   (request: any) => {

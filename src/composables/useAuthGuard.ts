@@ -12,6 +12,6 @@ export async function useAuthGuard(to: RouteLocation) {
     }
   }
   if (to.meta.requireRouteVerify && !['groups', 'messages'].includes(<string>to.params?.type)) {
-    return {name: 'Unauthorized'}
+    return { name: 'Unauthorized' }
   }
 }

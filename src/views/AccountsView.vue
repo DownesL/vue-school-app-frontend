@@ -46,12 +46,8 @@ organStore.getUserOrgans()
   <PageTeaser>
     <template v-slot:title>My Organisations</template>
     <template v-if="!organStore.userOrgans?.length" v-slot:content>
-      <p>
-        Seems like you don’t belong to or own an organisation yet!
-      </p>
-      <p>
-        An organisation is where you can register groups and send out information.
-      </p>
+      <p>Seems like you don’t belong to or own an organisation yet!</p>
+      <p>An organisation is where you can register groups and send out information.</p>
     </template>
     <template v-else v-slot:content>
       <ul class="full-w">

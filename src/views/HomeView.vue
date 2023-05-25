@@ -3,7 +3,6 @@ import PageTeaser from '@/components/molecules/PageTeaser.vue'
 import { useMessageStore } from '@/stores/message'
 import MessageTeaser from '@/components/molecules/MessageTeaser.vue'
 import AppLink from '@/components/atoms/AppLink.vue'
-import { useOrganisationStore } from '@/stores/organisation'
 import { useGroupStore } from '@/stores/group'
 
 const messageStore = useMessageStore()
@@ -45,11 +44,20 @@ groupStore.getUserGroups()
       <template v-slot:content>
         <template v-if="messageStore.flaggedMessages?.length">
           <ul>
-            <MessageTeaser v-for="m in messageStore.flaggedMessages.slice(0,Math.min(3,messageStore.flaggedMessages.length))" :key="m.id" :item="m" />
+            <MessageTeaser
+              v-for="m in messageStore.flaggedMessages.slice(
+                0,
+                Math.min(3, messageStore.flaggedMessages.length)
+              )"
+              :key="m.id"
+              :item="m"
+            />
           </ul>
         </template>
         <p v-else>You have no flagged messages!</p>
-        <AppLink :url="{name: 'messages', query: {flagged: true}}">View flagged messages</AppLink>
+        <AppLink :url="{ name: 'messages', query: { flagged: true } }"
+          >View flagged messages
+        </AppLink>
       </template>
     </PageTeaser>
   </template>

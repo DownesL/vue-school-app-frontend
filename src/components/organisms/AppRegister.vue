@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import {ref, watch} from 'vue'
+import { ref, watch } from 'vue'
 import InputField from '@/components/atoms/InputField.vue'
 import AppButton from '@/components/atoms/AppButton.vue'
-import {useAuthStore} from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth'
 
 const email = ref<string>('')
 const emailConf = ref<string>('')
@@ -19,12 +19,12 @@ interface RegisterObj {
 const registerError = ref<RegisterObj>()
 const errors = ref<RegisterObj>()
 watch(
-    emailConf,
-    () =>
-        (isSameEmail.value =
-            emailConf.value?.length && email.value?.trim() === emailConf.value?.trim()
-                ? ''
-                : `Emails don't match`)
+  emailConf,
+  () =>
+    (isSameEmail.value =
+      emailConf.value?.length && email.value?.trim() === emailConf.value?.trim()
+        ? ''
+        : `Emails don't match`)
 )
 const authStore = useAuthStore()
 const thankYouMsg = ref<boolean>(false)
@@ -58,18 +58,18 @@ watch(registerError, (nVal) => {
     <h1 class="text-3xl">Register</h1>
     <form method="post" class="flex flex-col w-4/5 mx-auto gap-4 my-4" novalidate>
       <InputField
-          v-model:value="firstName"
-          :error="errors?.first_name"
-          name="firstName"
-          type="text"
+        v-model:value="firstName"
+        :error="errors?.first_name"
+        name="firstName"
+        type="text"
       />
-      <InputField v-model:value="lastName" :error="errors?.last_name" name="lastName" type="text"/>
-      <InputField v-model:value="email" :error="errors?.email" name="email" type="email"/>
+      <InputField v-model:value="lastName" :error="errors?.last_name" name="lastName" type="text" />
+      <InputField v-model:value="email" :error="errors?.email" name="email" type="email" />
       <InputField
-          v-model:value.lazy="emailConf"
-          :error="isSameEmail ? isSameEmail : errors?.email"
-          name="emailConfirm"
-          type="email"
+        v-model:value.lazy="emailConf"
+        :error="isSameEmail ? isSameEmail : errors?.email"
+        name="emailConfirm"
+        type="email"
       />
       <AppButton class="mx-auto" @click.prevent="register">Register</AppButton>
     </form>

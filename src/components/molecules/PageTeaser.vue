@@ -1,7 +1,6 @@
 <script lang="ts" setup></script>
 <template>
-  <section
-  >
+  <section>
     <h2 class="text-2xl">
       <slot name="title" />
     </h2>

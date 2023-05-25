@@ -95,9 +95,13 @@ const trySave = async () => {
     <template v-slot:title>Join Requests</template>
     <template v-slot:content>
       <ul class="full-w">
-        <li v-for="jr in groupStore.selectedGroup.join_requests" :key="jr.id" class="w-4/5 text-center pb-002 last:pb-0 bg-gradient-to-r from-c-db to-c-lb mx-auto">
+        <li
+          v-for="jr in groupStore.selectedGroup.join_requests"
+          :key="jr.id"
+          class="w-4/5 text-center pb-002 last:pb-0 bg-gradient-to-r from-c-db to-c-lb mx-auto"
+        >
           <div class="">
-            <p>{{jr.user.first_name}} {{ jr.user.last_name}}</p>
+            <p>{{ jr.user.first_name }} {{ jr.user.last_name }}</p>
             <div class="flex gap-2">
               <button>add</button>
               <button>reject</button>

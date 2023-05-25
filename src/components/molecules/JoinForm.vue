@@ -4,7 +4,7 @@ import { ref } from 'vue'
 import AppTextArea from '@/components/atoms/AppTextArea.vue'
 import AppButton from '@/components/atoms/AppButton.vue'
 import { useGroupStore } from '@/stores/group'
-import {useOrganisationStore} from "@/stores/organisation";
+import { useOrganisationStore } from '@/stores/organisation'
 
 const props = defineProps({
   selected: {
@@ -27,10 +27,12 @@ const trySendJoinRequest = () => {
     if (props.type?.match(/group/i)) {
       useGroupStore().joinRequest({ id: `${props.selected?.id}`, motivation: motivation.value })
     } else {
-      useOrganisationStore().joinRequest({ id: `${props.selected?.id}`, motivation: motivation.value })
+      useOrganisationStore().joinRequest({
+        id: `${props.selected?.id}`,
+        motivation: motivation.value
+      })
     }
   }
-
 }
 </script>
 <template>

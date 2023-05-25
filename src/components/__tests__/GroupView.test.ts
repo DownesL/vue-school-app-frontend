@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import GroupDetailView from '@/views/GroupDetailView.vue'
 import { createTestingPinia } from '@pinia/testing'
-import MessageTeaser from "../molecules/MessageTeaser.vue";
+import MessageTeaser from '../molecules/MessageTeaser.vue'
 
 describe('GroupView', () => {
   it('renders properly', () => {
@@ -57,7 +57,7 @@ describe('GroupView', () => {
     })
     expect(wrapper.findComponent(MessageTeaser).exists()).toBeFalsy()
     const emptyGroupMessage = ''
-    expect(wrapper.findAll('p').map(x => x.text().toLowerCase())).toContain(emptyGroupMessage)
+    expect(wrapper.findAll('p').map((x) => x.text().toLowerCase())).toContain(emptyGroupMessage)
   })
   it('should not have message teasers', function () {
     const group = {

@@ -35,5 +35,4 @@ button {
     cursor: not-allowed;
   }
 }
-
 </style>

@@ -56,7 +56,7 @@ export const useMessageStore = defineStore('message', () => {
   }
   const setFlagged = async (id: string) => {
     try {
-      const {data: m} = await apiAxios.post(`/messages/${id}/flag`)
+      const { data: m } = await apiAxios.post(`/messages/${id}/flag`)
       selectedMessage.value = m.data
     } catch (e: any) {
       console.error(e)
@@ -83,6 +83,6 @@ export const useMessageStore = defineStore('message', () => {
     getFlaggedMessages,
     getSpecificMessage,
     createMessage,
-    setFlagged,
+    setFlagged
   }
 })
