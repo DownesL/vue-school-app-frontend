@@ -1,4 +1,4 @@
-<script setup></script>
+<script setup lang="ts"></script>
 <template>
   <div class="container">
     <h1>Sorry this page couldn't be found</h1>

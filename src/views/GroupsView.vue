@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 import GroupedTeaserList from '@/components/organisms/GroupedTeaserList.vue'
 import GroupTeaser from '@/components/molecules/GroupedTeaser.vue'
 import { useGroupStore } from '@/stores/group'
