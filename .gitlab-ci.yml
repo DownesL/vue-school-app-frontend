@@ -1,7 +1,12 @@
 #https://about.gitlab.com/blog/2017/09/12/vuejs-app-gitlab/
+
 build site:
   image: node:lts
   stage: build
+  before_script:
+    - corepack enable
+    - corepack prepare pnpm@latest-7 --activate
+    - pnpm config set store-dir .pnpm-store
   script:
     - pnpm install
     - pnpm run build
