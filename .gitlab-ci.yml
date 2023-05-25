@@ -1,17 +1,24 @@
+#https://about.gitlab.com/blog/2017/09/12/vuejs-app-gitlab/
 build site:
-  image: node:6
+  image: node:lts
   stage: build
   script:
-    - npm install --progress=false
-    - npm run build
+    - pnpm install --progress=false
+    - pnpm run build
   artifacts:
     expire_in: 1 week
     paths:
       - dist
 
-unit test:
-  image: node:6
+lint:
   stage: test
   script:
-    - npm install --progress=false
-    - npm run unit
+    - pnpm i
+    - npx eslint . --ext .vue,.js,.jsx,.cjs,.mjs --ignore-path .gitignore
+    - npx prettier --check src/
+
+vitest:
+  stage: test
+  script:
+    - pnpm i
+    - pnpm run test
