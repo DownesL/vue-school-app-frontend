@@ -28,10 +28,5 @@ lint:
 
 vitest:
   stage: test
-  before_script:
-    - corepack enable
-    - corepack prepare pnpm@latest-7 --activate
-    - pnpm config set store-dir .pnpm-store
   script:
-    - pnpm i
     - pnpm run test
