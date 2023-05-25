@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useLoadingStore } from '@/stores/loading'
 import AppLoading from '@/components/atoms/AppLoading.vue'
-const loadingStore = useLoadingStore()
+import { useLoading } from '@/composables/loading'
+import { useAuthStore } from '@/stores/auth'
 
+const { isLoading } = useLoading()
 const navOpen = ref(false)
+const authStore = useAuthStore()
 </script>
 
 <template>
@@ -73,17 +75,26 @@ const navOpen = ref(false)
     </div>
     <nav v-if="navOpen" id="navigation">
       <ul :class="{ hidden: !navOpen }">
-        <li>
-          <router-link :to="{ name: 'home' }" @click="() => (navOpen = !navOpen)">home</router-link>
-        </li>
-        <li>
-          <router-link :to="{ name: 'messages' }" @click="() => (navOpen = !navOpen)"
-            >messages
-          </router-link>
-        </li>
-        <li>
-          <router-link :to="{ name: 'account' }" @click="() => (navOpen = !navOpen)"
-            >account
+        <template v-if="authStore.user">
+          <li>
+            <router-link :to="{ name: 'home' }" @click="() => (navOpen = !navOpen)">
+              Home
+            </router-link>
+          </li>
+          <li>
+            <router-link :to="{ name: 'messages' }" @click="() => (navOpen = !navOpen)">
+              Messages
+            </router-link>
+          </li>
+          <li>
+            <router-link :to="{ name: 'account' }" @click="() => (navOpen = !navOpen)">
+              Account
+            </router-link>
+          </li>
+        </template>
+        <li v-else>
+          <router-link :to="{ name: 'login' }" @click="() => (navOpen = !navOpen)">
+            Login
           </router-link>
         </li>
       </ul>
@@ -91,8 +102,9 @@ const navOpen = ref(false)
     <!--    <AppButton @click="doLogin">login</AppButton>-->
   </header>
   <main>
-    <RouterView v-if="!loadingStore.loading" />
-    <AppLoading v-else />
+    <!--    <RouterView v-if="!loadingStore.loading" />-->
+    <RouterView />
+    <AppLoading v-if="isLoading" />
   </main>
 </template>
 
@@ -129,6 +141,7 @@ nav {
 }
 
 header {
+  position: relative;
   @include shadow-dark;
   display: flex;
   flex-direction: column;
@@ -160,6 +173,7 @@ main {
   display: flex;
   align-items: center;
   flex-direction: column;
+  position: relative;
 }
 
 #logo,

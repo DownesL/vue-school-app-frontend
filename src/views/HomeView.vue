@@ -7,11 +7,10 @@ import { useOrganisationStore } from '@/stores/organisation'
 import { useGroupStore } from '@/stores/group'
 
 const messageStore = useMessageStore()
-const organStore = useOrganisationStore()
 const groupStore = useGroupStore()
 
 messageStore.getRecentMessages()
-organStore.getUserOrgans()
+messageStore.getFlaggedMessages()
 groupStore.getUserGroups()
 </script>
 
@@ -44,13 +43,13 @@ groupStore.getUserGroups()
     <PageTeaser>
       <template v-slot:title> Flagged Messages</template>
       <template v-slot:content>
-        <template v-if="messageStore.taggedMessages?.length">
+        <template v-if="messageStore.flaggedMessages?.length">
           <ul>
-            <MessageTeaser v-for="m in messageStore.recentMessages" :key="m.id" :item="m" />
+            <MessageTeaser v-for="m in messageStore.flaggedMessages.slice(0,Math.min(3,messageStore.flaggedMessages.length))" :key="m.id" :item="m" />
           </ul>
         </template>
-        <p class="text-center my-2">You have no flagged messages!</p>
-        <AppLink :url="'/messages/flagged'">View flagged messages</AppLink>
+        <p v-else>You have no flagged messages!</p>
+        <AppLink :url="{name: 'messages', query: {flagged: true}}">View flagged messages</AppLink>
       </template>
     </PageTeaser>
   </template>

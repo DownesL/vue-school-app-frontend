@@ -1,7 +1,7 @@
 import { useAuthStore } from '@/stores/auth'
 import type { RouteLocation } from 'vue-router'
 
-export async function authGuard(to: RouteLocation) {
+export async function useAuthGuard(to: RouteLocation) {
   // do some user authorization check
   // and avoid infinite redirecto to login!
   const authStore = useAuthStore()
@@ -12,6 +12,6 @@ export async function authGuard(to: RouteLocation) {
     }
   }
   if (to.meta.requireRouteVerify && !['groups', 'messages'].includes(<string>to.params?.type)) {
-    return false //TODO: UNAUTHORISED
+    return {name: 'Unauthorized'}
   }
 }

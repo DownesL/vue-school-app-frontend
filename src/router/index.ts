@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { authGuard } from '@/composables/authGuard'
+import { useAuthGuard } from '@/composables/useAuthGuard'
+import { useSetTitle } from '@/composables/setTitle'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,55 +9,56 @@ const router = createRouter({
       path: '/',
       name: 'welcome',
       component: () => import('@/views/WelcomeView.vue'),
-      meta: { title: 'welcome | UpToDate' }
+      meta: { title: 'Welcome | UpToDate' }
     },
     {
       path: '/home',
       name: 'home',
       component: () => import('@/views/HomeView.vue'),
-      meta: { requireAuth: true, title: 'home | UpToDate' }
+      meta: { requireAuth: true, title: 'Home | UpToDate' }
     },
     {
       path: '/messages',
       name: 'messages',
+      props: (route) => ({ search: route.query.q }),
       component: () => import('@/views/MessagesView.vue'),
-      meta: { requireAuth: true, title: 'messages | UpToDate' }
+      meta: { requireAuth: true, title: 'Messages | UpToDate' }
     },
     {
       path: '/messages/:id(\\d+)',
       name: 'messageDetail',
       props: true,
       component: () => import('@/views/MessageDetailView.vue'),
-      meta: { requireAuth: true, title: 'x | UpToDate' }
+      meta: { requireAuth: true, title: 'Message | UpToDate' }
     },
     {
       path: '/account',
       name: 'account',
       component: () => import('@/views/AccountsView.vue'),
-      meta: { requireAuth: true, title: 'account | UpToDate' }
+      meta: { requireAuth: true, title: 'Account | UpToDate' }
     },
     {
       // TODO: CLEAN THIS UP
       path: '/login',
       component: () => import('@/views/LoginView.vue'),
-      meta: { requireAuth: false, title: 'login | UpToDate' },
+      meta: { requireAuth: false, title: 'Login | UpToDate' },
       children: [
         {
           path: '/login',
           name: 'login',
-          meta: { requireAuth: false, title: 'login | UpToDate' },
+          meta: { requireAuth: false, title: 'Login | UpToDate' },
           component: () => import('@/components/organisms/AppLogin.vue')
         },
         {
           path: '/register',
           name: 'register',
-          meta: { requireAuth: false, title: 'register | UpToDate' },
+          meta: { requireAuth: false, title: 'Register | UpToDate' },
           component: () => import('@/components/organisms/AppRegister.vue')
         },
         {
           path: '/password',
           name: 'password',
-          meta: { requireAuth: false, title: 'set passwords | UpToDate' },
+          meta: { requireAuth: false, title: 'Set Password | UpToDate' },
           component: () => import('@/components/organisms/AppPassword.vue')
         }
       ]
@@ -65,31 +67,31 @@ const router = createRouter({
       path: '/groups',
       name: 'groups',
       component: () => import('@/views/GroupsView.vue'),
-      meta: { requireAuth: true, title: 'groups | UpToDate' }
+      meta: { requireAuth: true, title: 'Groups | UpToDate' }
     },
     {
       path: '/groups/:id(\\d+)',
       name: 'specificGroup',
       props: true,
       component: () => import('@/views/GroupDetailView.vue'),
-      meta: { requireAuth: true, title: 'x | UpToDate' }
+      meta: { requireAuth: true, title: 'Group | UpToDate' }
     },
 
     {
       path: '/organisations',
       name: 'organisations',
       component: () => import('@/views/OrganisationsView.vue'),
-      meta: { requireAuth: true, title: 'organisations | UpToDate' }
+      meta: { requireAuth: true, title: 'Organisations | UpToDate' }
     },
     {
       path: '/organisations/add',
       name: 'addOrganisation',
       component: () => import('@/views/GeneralAddView.vue'),
-      meta: { requireAuth: true, title: 'add organisation | UpToDate' }
+      meta: { requireAuth: true, title: 'Add Organisation | UpToDate' }
     },
     {
       path: '/organisations/:id(\\d+)',
-      meta: { requireAuth: true, requireAdmin: true, title: 'x  | UpToDate' },
+      meta: { requireAuth: true, requireAdmin: true, title: 'Organisation  | UpToDate' },
       // TODO: admin
       name: 'specificOrganisation',
       props: true,
@@ -104,7 +106,7 @@ const router = createRouter({
         requireAuth: true,
         requireAdmin: true,
         requireRouteVerify: true,
-        title: 'add x | UpToDate'
+        title: `Add ... | UpToDate`
       }
     },
     {
@@ -121,5 +123,6 @@ const router = createRouter({
     }
   ]
 })
-router.beforeEach(authGuard)
+router.beforeEach(useAuthGuard)
+router.beforeEach(useSetTitle)
 export default router

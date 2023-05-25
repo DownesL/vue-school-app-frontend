@@ -1,21 +1,23 @@
 import axios from 'axios'
 import router from '@/router'
-import { useLoadingStore } from '@/stores/loading'
+import { useLoading } from '@/composables/loading'
 
 const apiAxios = axios.create({
   baseURL: `${import.meta.env.VITE_BASE_URL}/api`,
   withCredentials: true
 })
 
+const { get, update, isLoading } = useLoading()
+
 apiAxios.interceptors.request.use(
   (request: any) => {
-    // useLoadingStore().$patch({ loading: true })
+    if (!get()) {
+      update(true)
+    }
     return request
   },
   (error) => {
-    if (useLoadingStore().loading) {
-      // useLoadingStore().$patch({ loading: true })
-    }
+    update(false)
     return Promise.reject(error)
   }
 )
@@ -23,11 +25,13 @@ apiAxios.interceptors.request.use(
 // add interceptors (optional)
 apiAxios.interceptors.response.use(
   (response: any) => {
-    // useLoadingStore().$patch({ loading: false })
+    if (get()) {
+      update(false)
+    }
     return response
   },
   (error: any) => {
-    // useLoadingStore().$patch({ loading: false })
+    update(false)
     if (error.response?.status === 404) {
       router.push({ name: 'Notfound' })
     } else if (error.response?.status === 403) {

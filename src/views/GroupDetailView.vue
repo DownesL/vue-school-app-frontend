@@ -75,7 +75,7 @@ const trySave = async () => {
       <ul v-else class="my-3">
         <MessageTeaser v-for="i in groupStore.selectedGroup?.messages" :key="i.id" :item="i" />
       </ul>
-      <AppLink :url="{ name: 'messages', query: { groups: [groupStore.selectedGroup.id] } }"
+      <AppLink :url="{ name: 'messages', query: { q: groupStore.selectedGroup?.name } }"
         >View Messages
       </AppLink>
     </template>
