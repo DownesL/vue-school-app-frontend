@@ -25,7 +25,7 @@ const label = computed(() => props.name.replace(/(?=[A-Z])/, ' '))
         :name="name"
         :value="value"
         type="checkbox"
-        @input="$emit('update:value', $event.target.checked)"
+        @input="$emit('update:value', ($event.target as HTMLInputElement).checked)"
       />
       <span class="slider"> </span>
     </span>

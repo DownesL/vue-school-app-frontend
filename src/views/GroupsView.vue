@@ -12,7 +12,7 @@ const filteredGroups = computed(() =>
   groupStore.nonUserGroups?.filter(
     (x) =>
       x.name.match(new RegExp(`.*${groupStore.search}.*`, 'i')) ||
-      x.organisation.name.match(new RegExp(`.*${groupStore.search}.*`, 'i'))
+      x.organisation_name?.match(new RegExp(`.*${groupStore.search}.*`, 'i'))
   )
 )
 </script>

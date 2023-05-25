@@ -3,10 +3,10 @@ import { defineStore } from 'pinia'
 import { apiAxios } from '@/instances/apiAxios'
 
 export const useOrganisationStore = defineStore('organisation', () => {
-  const userOrgans = ref<Organisation[]>([])
-  const nonUserOrgans = ref<Organisation[]>([])
-  const allOrgans = ref<Organisation[]>([])
-  const isLoading = ref<boolean>(false)
+  const userOrgans = ref<Organisation[]>()
+  const nonUserOrgans = ref<Organisation[]>()
+  const allOrgans = ref<Organisation[]>()
+  const selectedOrgan = ref<Organisation>()
 
   const getAllOrgans = async () => {
     try {
@@ -56,7 +56,7 @@ export const useOrganisationStore = defineStore('organisation', () => {
     }
   }
   const search = ref<string>('')
-  const selectedOrgan = ref<Object | null>(null)
+
   return {
     search,
     allOrgans,

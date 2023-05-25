@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import {computed, PropType} from 'vue'
+import type { PropType } from 'vue'
+import { computed } from 'vue'
 import NameSpan from '@/components/atoms/NameSpan.vue'
 import { useGroupStore } from '@/stores/group'
-
 
 const props = defineProps({
   item: {
@@ -124,7 +124,6 @@ li {
     border-radius: $border-radius $border-radius 0 0;
     border-bottom: 2px solid $purple;
   }
-
 }
 
 button {

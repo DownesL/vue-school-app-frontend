@@ -5,7 +5,7 @@ import { apiAxios } from '@/instances/apiAxios'
 export const useGroupStore = defineStore('group', () => {
   const userGroups = ref<Group[]>([])
   const nonUserGroups = ref<Group[]>([])
-  const selectedGroup = ref<Group | null>(null)
+  const selectedGroup = ref<Group>()
   const allGroups = ref<any>()
 
   const getAllGroups = async () => {

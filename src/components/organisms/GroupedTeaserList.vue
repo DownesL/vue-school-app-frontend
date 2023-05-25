@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import PageTeaser from '@/components/molecules/PageTeaser.vue'
 import AppButton from '@/components/atoms/AppButton.vue'
-import { PropType, ref, watch } from 'vue'
+import type { PropType } from 'vue'
+import { ref, watch } from 'vue'
 import SearchFilter from '@/components/atoms/SearchFilter.vue'
 import JoinForm from '@/components/molecules/JoinForm.vue'
 

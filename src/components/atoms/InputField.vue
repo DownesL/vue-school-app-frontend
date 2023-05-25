@@ -22,7 +22,7 @@ const props = defineProps({
   },
   value: {
     required: true,
-    type: String || Boolean
+    type: String || Boolean || File
   }
 })
 // const newVal = ref<null | string>(null)

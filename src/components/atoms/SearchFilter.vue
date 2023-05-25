@@ -37,7 +37,7 @@ defineEmits(['update:search'])
       name="search"
       placeholder="Search"
       type="text"
-      @input="$emit('update:search', $event.target.value)"
+      @input="$emit('update:search', ($event.target as HTMLInputElement).value)"
     />
     <button v-if="search" @click="$emit('update:search', '')">
       <span>Clear Search</span>

@@ -7,7 +7,7 @@ declare global {
 
   interface MessageAttributes {
     read?: boolean
-    flagged?: boolean
+    flagged?: number
   }
 
   interface GroupAttributes {
@@ -36,6 +36,8 @@ declare global {
     id: number
     name: string
     organisation_name?: string,
+    groups: Group[],
+    description: string
   }
 
   interface JoinRequest {

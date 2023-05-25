@@ -54,9 +54,12 @@ const applyFilter = (arr: Message[]): Message[] =>
   )
 
 const messagesByMonth = computed<Record<string, Message[]>>(() =>
-  groupBy<Message, string>(applyFilter(messages.value), (i) =>
-    new Date(i.created_at).toLocaleDateString('en-GB', { month: 'long', year: '2-digit' })
-  )
+  groupBy<Message, string>(applyFilter(messages.value), (i: Message) => {
+    if (i.created_at) {
+      return new Date(i.created_at).toLocaleDateString('en-GB', { month: 'long', year: '2-digit' })
+    }
+    return '1 Apr'
+  })
 )
 watchEffect(() => {
   router.replace({

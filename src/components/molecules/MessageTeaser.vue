@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import {computed, PropType} from 'vue'
+import type { PropType } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   item: {
@@ -11,6 +12,14 @@ const personalAttr = computed<PersonalAttributes>(() => ({
   ...props.item?.group_attr,
   ...props.item?.message_attr
 }))
+const date = computed(() => {
+  if (props.item?.created_at)
+    return new Date(props.item.created_at).toLocaleDateString('en-GB', {
+      month: 'short',
+      day: 'numeric'
+    })
+  return '1 Apr'
+})
 </script>
 <template>
   <li>
@@ -39,9 +48,7 @@ const personalAttr = computed<PersonalAttributes>(() => ({
       </div>
     </div>
     <p>
-      {{
-        new Date(item.created_at).toLocaleDateString('en-GB', { month: 'short', day: 'numeric' })
-      }}
+      {{ date }}
       •
     </p>
     <router-link :to="{ name: 'messageDetail', params: { id: item.id } }">

@@ -11,6 +11,7 @@ import { useGroupStore } from '@/stores/group'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import ToggleInput from '@/components/atoms/ToggleInput.vue'
 import { useMessageStore } from '@/stores/message'
+import FileInput from '@/components/atoms/FileInput.vue'
 
 const props = defineProps({
   type: {
@@ -40,7 +41,7 @@ const groups = ref<string[]>([])
 const groupsError = ref<string>('')
 
 const message = ref('')
-const message_file = ref<File>()
+const message_file = ref<any>()
 const messageError = ref('')
 
 const confirmation = ref<boolean>(false)
@@ -138,7 +139,6 @@ const tryCreateMessages = async () => {
     groupsError.value = msg.errors.groups ? msg.errors.groups[0] : ''
     confirmation.value = false
   }
-
 }
 const tryCreate = () => {
   switch (props.type) {
@@ -189,7 +189,7 @@ const config = reactive({
             tag-name="textarea"
           />
         </div>
-        <InputField v-else :error="messageError" :value="message_file" name="message" type="file" />
+        <FileInput v-else :error="messageError" :value="message_file" name="message" type="file" />
       </template>
       <AppButton @click.prevent="askConfirmation">Create {{ type.slice(0, -1) }}</AppButton>
     </form>

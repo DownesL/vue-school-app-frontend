@@ -1,8 +1,12 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import {computed} from 'vue'
 
 const props = defineProps({
   name: {
+    required: true,
+    type: String
+  },
+  type: {
     required: true,
     type: String
   },
@@ -18,24 +22,28 @@ const props = defineProps({
   },
   value: {
     required: true,
-    type: String
+    type: File || undefined
   }
 })
+// const newVal = ref<null | string>(null)
+const emit = defineEmits(['update:value'])
 const label = computed(() => props.name.replace(/(?=[A-Z])/, ' '))
+const handleChange = (e: any) => emit('update:value', e.target.value)
 </script>
 <template>
   <div>
     <label :for="name">
-      <span>{{ label }}</span>
-      <span role="alert">{{ error }}</span>
+      <span>{{ label }} </span> <span role="alert">{{ error }}</span>
     </label>
-    <textarea
-      :id="name"
-      :class="{ error: error }"
-      :name="name"
-      :value="value"
-      rows="5"
-      @input="$emit('update:value', ($event.target as HTMLInputElement).value)"
+    <input
+        :id="name"
+        :class="{ 'error': error }"
+        :name="name"
+        :required="required"
+        :type="type"
+        :value="value"
+        autocomplete="false"
+        @input="handleChange"
     />
   </div>
 </template>
@@ -44,26 +52,22 @@ div {
   display: flex;
   flex-direction: column;
 }
-
 label {
   span:first-of-type {
     text-transform: capitalize;
     color: $text;
   }
-
   span:last-of-type {
     color: $red;
     margin-left: $c;
   }
 }
-
-textarea {
+input {
   border: solid 1px $input-border;
   border-radius: $border-radius;
   padding: $b $c;
   background: $background;
   color: $text;
-
   &.error {
     border-color: $red;
     outline-color: red;
