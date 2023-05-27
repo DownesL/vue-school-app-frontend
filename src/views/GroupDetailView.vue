@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import MessageTeaser from '@/components/molecules/MessageTeaser.vue'
-import AppLink from '@/components/atoms/AppLink.vue'
 import PageTeaser from '@/components/molecules/PageTeaser.vue'
 import { useGroupStore } from '@/stores/group'
 import InputField from '@/components/atoms/InputField.vue'
@@ -9,6 +7,8 @@ import ToggleInput from '@/components/atoms/ToggleInput.vue'
 import AppButton from '@/components/atoms/AppButton.vue'
 import MembersTab from '@/views/MembersTab.vue'
 import JoinRequestTab from '@/views/JoinRequestTab.vue'
+import MessagesTab from '@/views/MessagesTab.vue'
+import AppLink from '@/components/atoms/AppLink.vue'
 
 const props = defineProps({
   id: {
@@ -68,20 +68,11 @@ const trySave = async () => {
       </template>
     </template>
   </PageTeaser>
-  <PageTeaser v-if="groupStore.selectedGroup?.messages">
-    <template v-slot:title>Recent Messages</template>
-    <template v-slot:content>
-      <p v-if="!groupStore.selectedGroup?.messages" class="text-center my-2">
-        Wow, so empty! Seems like you don’t have any recent messages!
-      </p>
-      <ul v-else class="my-3">
-        <MessageTeaser v-for="i in groupStore.selectedGroup?.messages" :key="i.id" :item="i" />
-      </ul>
-      <AppLink :url="{ name: 'messages', query: { q: groupStore.selectedGroup?.name } }"
-        >View Messages
-      </AppLink>
-    </template>
-  </PageTeaser>
+  <MessagesTab v-if="groupStore.selectedGroup?.messages" :messages="groupStore.selectedGroup?.messages as Message[]">
+    <AppLink :url="{ name: 'messages', query: { q: groupStore.selectedGroup?.name } }"
+      >View Messages
+    </AppLink>
+  </MessagesTab>
   <MembersTab
     v-if="groupStore.selectedGroup?.admin"
     :members="groupStore.selectedGroup?.members as User[]"

@@ -4,6 +4,7 @@ import { useMessageStore } from '@/stores/message'
 import MessageTeaser from '@/components/molecules/MessageTeaser.vue'
 import AppLink from '@/components/atoms/AppLink.vue'
 import { useGroupStore } from '@/stores/group'
+import MessagesTab from '@/views/MessagesTab.vue'
 
 const messageStore = useMessageStore()
 const groupStore = useGroupStore()
@@ -25,20 +26,9 @@ groupStore.getUserGroups()
     </PageTeaser>
 
     <template v-else>
-      <PageTeaser>
-        <template v-slot:title>Recent Messages</template>
-        <template v-slot:content>
-          <p v-if="!messageStore.recentMessages?.length" class="text-center my-2">
-            Wow, so empty! Seems like you don’t have any recent messages!
-          </p>
-          <template v-else>
-            <ul>
-              <MessageTeaser v-for="m in messageStore.recentMessages" :key="m.id" :item="m" />
-            </ul>
-          </template>
-          <AppLink :url="{ name: 'messages' }">View Messages</AppLink>
-        </template>
-      </PageTeaser>
+      <MessagesTab :messages="messageStore.recentMessages as Message[]">
+        <AppLink :url="{ name: 'messages' }">View Messages</AppLink>
+      </MessagesTab>
 
       <PageTeaser>
         <template v-slot:title> Flagged Messages</template>

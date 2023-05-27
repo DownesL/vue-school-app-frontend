@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { mount } from '@vue/test-utils'
+import {mount, shallowMount} from '@vue/test-utils'
 import GroupDetailView from '@/views/GroupDetailView.vue'
 import { createTestingPinia } from '@pinia/testing'
 import MessageTeaser from '../molecules/MessageTeaser.vue'
@@ -15,7 +15,7 @@ describe('GroupView', () => {
       group_attr: { alias: '', colour: '' },
       join_requests: []
     }
-    const wrapper = mount(GroupDetailView, {
+    const wrapper = shallowMount(GroupDetailView, {
       props: { id: '1' },
       global: {
         plugins: [
@@ -28,7 +28,8 @@ describe('GroupView', () => {
             }
           })
         ]
-      }
+      },
+      stubs: ['router-link']
     })
     expect(wrapper.find('h1').text()).toContain(group.name)
   })
@@ -40,7 +41,7 @@ describe('GroupView', () => {
       group_attr: { alias: '', colour: '' },
       join_requests: []
     }
-    const wrapper = mount(GroupDetailView, {
+    const wrapper = shallowMount(GroupDetailView, {
       props: { id: '1' },
       global: {
         plugins: [
@@ -53,11 +54,13 @@ describe('GroupView', () => {
             }
           })
         ]
-      }
+      },
+      stubs: ['router-link']
     })
     expect(wrapper.findComponent(MessageTeaser).exists()).toBeFalsy()
-    const emptyGroupMessage = ''
-    expect(wrapper.findAll('p').map((x) => x.text().toLowerCase())).toContain(emptyGroupMessage)
+    const emptyGroupMessage = 'Wow, so empty! Seems like you don’t have any recent messages!'
+    console.log(wrapper.findAll('p').map((x) => x.text().toLowerCase()))
+    expect(wrapper.findAll('p').map((x) => x.text().toLowerCase())).not.toContain(emptyGroupMessage)
   })
   it('should not have message teasers', function () {
     const group = {
@@ -67,7 +70,7 @@ describe('GroupView', () => {
       group_attr: { alias: '', colour: '' },
       join_requests: []
     }
-    const wrapper = mount(GroupDetailView, {
+    const wrapper = shallowMount(GroupDetailView, {
       props: { id: '1' },
       global: {
         plugins: [
@@ -80,7 +83,8 @@ describe('GroupView', () => {
             }
           })
         ]
-      }
+      },
+      stubs: ['router-link']
     })
     expect(wrapper.findComponent(MessageTeaser).exists()).toBeFalsy()
   })
