@@ -35,7 +35,7 @@ export const useOrganisationStore = defineStore('organisation', () => {
   const getOrganInfo = async (id: string) => {
     try {
       const { data: gr } = await apiAxios.get(`/organisations/${id}`)
-      selectedOrgan.value = gr
+      selectedOrgan.value = gr.data
     } catch (err) {
       console.error(err)
     }
@@ -51,6 +51,7 @@ export const useOrganisationStore = defineStore('organisation', () => {
   const joinRequest = async (payload: { id: string; motivation: string }) => {
     try {
       await apiAxios.post(`/organisations/${payload.id}/join-request`, payload)
+      return { status: 201 }
     } catch (e: any) {
       return e?.response?.data
     }

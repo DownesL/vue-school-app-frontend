@@ -66,10 +66,12 @@ export const useGroupStore = defineStore('group', () => {
   const joinRequest = async (payload: { id: string; motivation: string }) => {
     try {
       await apiAxios.post(`/groups/${payload.id}/join-request`, payload)
+      return {status: 201}
     } catch (e: any) {
       return e?.response?.data
     }
   }
+
 
   const filters = ref<Filters>({ groups: null })
   const search = ref<string>('')

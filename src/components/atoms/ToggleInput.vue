@@ -51,7 +51,7 @@ label {
 .switch {
   position: relative;
   display: inline-block;
-  width: 40px;
+  width: 48px;
   height: 24px;
 }
 
@@ -70,6 +70,7 @@ label {
   background-color: #ccc;
   -webkit-transition: 0.4s;
   transition: 0.4s;
+  margin-left: 0.5rem;
 }
 
 .slider:before {

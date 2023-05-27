@@ -17,13 +17,21 @@ declare global {
 
   interface PersonalAttributes extends MessageAttributes, GroupAttributes {}
 
+  interface User {
+    id?: string
+    first_name?: string
+    last_name?: string
+    email: string
+    password?: string
+  }
+
   interface Message {
     name: string
     description: string
     important: boolean
     groups: string[]
     content: string
-    file_message: File | null
+    filename: File | null
     id: number
     created_at?: string
     message_attr?: MessageAttributes
@@ -37,7 +45,9 @@ declare global {
     name: string
     organisation_name?: string,
     groups: Group[],
-    description: string
+    description: string,
+    admins?: User[],
+    join_requests?: JoinRequest[]
   }
 
   interface JoinRequest {

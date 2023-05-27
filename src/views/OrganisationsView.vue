@@ -32,7 +32,7 @@ const filteredGroups = computed(() =>
     </template>
     <template v-slot:shortList>
       <GroupedTeaser
-        v-for="g in filteredGroups"
+        v-for="g in filteredGroups?.slice(0, Math.min(filteredGroups?.length, 10))"
         :key="g.id"
         :item="g"
         :show-checked="true"

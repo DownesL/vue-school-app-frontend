@@ -4,11 +4,16 @@ defineProps({
     type: Boolean,
     required: false,
     default: false
+  },
+  red: {
+    required: false,
+    type: Boolean,
+    default: false
   }
 })
 </script>
 <template>
-  <button :disabled="disabled">
+  <button :class="{ red: red }" :disabled="disabled">
     <slot></slot>
   </button>
 </template>
@@ -26,10 +31,22 @@ button {
   border-radius: $border-radius;
   transition: $transition;
   font-weight: 600;
-  &:hover {
+
+  &:hover,
+  &:focus {
     background: $purple;
     //color: $white;
   }
+
+  &.red {
+    background: $red;
+    color: $white;
+
+    &:hover {
+      background: darken($red, 10%);
+    }
+  }
+
   &[disabled] {
     background: $gray;
     cursor: not-allowed;

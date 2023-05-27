@@ -1,16 +1,20 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import AppLoading from '@/components/atoms/AppLoading.vue'
 import { useLoading } from '@/composables/loading'
-import { useAuthStore } from '@/stores/auth'
+import { useRoute } from 'vue-router'
+import AppNavigation from '@/AppNavigation.vue'
 
 const { isLoading } = useLoading()
 const navOpen = ref(false)
-const authStore = useAuthStore()
+const route = useRoute()
+watch(route, () => {
+  navOpen.value = false
+})
 </script>
 
 <template>
-  <header>
+  <header :class="{ 'nav-open': navOpen }">
     <div>
       <router-link :to="{ name: 'home' }">
         <svg
@@ -59,9 +63,9 @@ const authStore = useAuthStore()
         </svg>
         <span class="text-xl"> UpToDate </span>
       </router-link>
-      <!--      TODO: CHANGE H1 TO CONTENT HEADER-->
       <button @click="() => (navOpen = !navOpen)">
         <svg
+          v-if="!navOpen"
           fill="none"
           height="12"
           viewBox="0 0 18 12"
@@ -71,84 +75,47 @@ const authStore = useAuthStore()
           <title>Menu</title>
           <path d="M0 0H18V2H0V0ZM0 5H18V7H0V5ZM0 10H18V12H0V10Z" fill="currentColor" />
         </svg>
+        <svg
+          v-else
+          fill="none"
+          height="16"
+          viewBox="0 0 22 22"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M13.2943 11L22 19.7057V22H19.7057L11 13.2943L2.29429 22H0V19.7057L8.70571 11L0 2.29429V0H2.29429L11 8.70571L19.7057 0H22V2.29429L13.2943 11Z"
+            fill="currentColor"
+          />
+        </svg>
       </button>
     </div>
-    <nav v-if="navOpen" id="navigation">
-      <ul :class="{ hidden: !navOpen }">
-        <template v-if="authStore.user">
-          <li>
-            <router-link :to="{ name: 'home' }" @click="() => (navOpen = !navOpen)">
-              Home
-            </router-link>
-          </li>
-          <li>
-            <router-link :to="{ name: 'messages' }" @click="() => (navOpen = !navOpen)">
-              Messages
-            </router-link>
-          </li>
-          <li>
-            <router-link :to="{ name: 'account' }" @click="() => (navOpen = !navOpen)">
-              Account
-            </router-link>
-          </li>
-        </template>
-        <li v-else>
-          <router-link :to="{ name: 'login' }" @click="() => (navOpen = !navOpen)">
-            Login
-          </router-link>
-        </li>
-      </ul>
-    </nav>
-    <!--    <AppButton @click="doLogin">login</AppButton>-->
+    <AppNavigation :navOpen="navOpen" />
   </header>
-  <main>
-    <!--    <RouterView v-if="!loadingStore.loading" />-->
+  <main v-if="!navOpen">
     <RouterView />
     <AppLoading v-if="isLoading" />
   </main>
 </template>
 
 <style lang="scss" scoped>
-nav {
-  ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    align-items: center;
-
-    li {
-      border-radius: $border-radius;
-      margin-block: $a;
-      width: 100%;
-      border: 3px solid transparent;
-
-      &:hover {
-        //background-color: $dark-gray;
-        border: 3px dashed $purple;
-      }
-
-      a {
-        color: $text;
-        font-size: 2rem;
-        padding: $b;
-        width: 100%;
-        display: inline-flex;
-        justify-content: center;
-      }
-    }
-  }
-}
-
 header {
   position: relative;
   @include shadow-dark;
   display: flex;
   flex-direction: column;
+  @media (min-width: 920px) {
+    justify-content: space-between;
+    flex-direction: row;
+  }
   padding: $d;
   gap: $d;
   background: $background;
   width: 100%;
+
+  &.nav-open {
+    height: 100vh;
+  }
 
   div {
     display: flex;
@@ -165,6 +132,9 @@ header {
 
     button {
       color: $text;
+      @media (min-width: 920px) {
+        display: none;
+      }
     }
   }
 }

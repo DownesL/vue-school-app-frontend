@@ -92,21 +92,32 @@ const router = createRouter({
     {
       path: '/organisations/:id(\\d+)',
       meta: { requireAuth: true, requireAdmin: true, title: 'Organisation  | UpToDate' },
-      // TODO: admin
       name: 'specificOrganisation',
       props: true,
       component: () => import('@/views/OrganisationDetailView.vue')
     },
     {
-      path: '/organisations/:id(\\d+)/:type(\\w+)/add',
-      name: 'generalAdd',
-      props: true,
+      path: '/organisations/:id(\\d+)/groups/add',
+      name: 'groupsAdd',
+      props: { type: 'groups' },
       component: () => import('@/views/GeneralAddView.vue'),
       meta: {
         requireAuth: true,
         requireAdmin: true,
         requireRouteVerify: true,
-        title: `Add ... | UpToDate`
+        title: `Add groups | UpToDate`
+      }
+    },
+    {
+      path: '/organisations/:id(\\d+)/messages/add',
+      name: 'msgsAdd',
+      props: true,
+      component: () => import('@/views/AddMessageView.vue'),
+      meta: {
+        requireAuth: true,
+        requireAdmin: true,
+        requireRouteVerify: true,
+        title: `Add Message | UpToDate`
       }
     },
     {
@@ -124,5 +135,5 @@ const router = createRouter({
   ]
 })
 router.beforeEach(useAuthGuard)
-router.beforeEach(useSetTitle)
+router.afterEach(useSetTitle)
 export default router

@@ -23,12 +23,20 @@ body {
   background: $background;
   color: $white;
 }
+
 .ck > * {
   color: black;
+}
+.ck {
+  height: 15rem;
 }
 
 button {
   border: none;
   background: $background;
   cursor: pointer;
+}
+
+.router-link-active {
+  text-decoration: underline double 1px;
 }

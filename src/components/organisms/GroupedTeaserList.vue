@@ -30,21 +30,23 @@ watch(searchValue, () => {
 <template>
   <template v-if="!nexted">
     <SearchFilter v-model:search="searchValue" />
-    <ul>
-      <slot name="longList" />
-      <slot name="shortList" />
-    </ul>
-    <AppButton
-      :aria-expanded="nexted"
-      :disabled="!selected?.id"
-      aria-controls="#joinForm"
-      class="mx-auto"
-      @click="() => (nexted = true)"
-    >
-      Join {{ type }}
-    </AppButton>
+    <div>
+      <ul>
+        <slot name="longList" />
+        <slot name="shortList" />
+      </ul>
+      <AppButton
+        :aria-expanded="nexted"
+        :disabled="!selected?.id"
+        aria-controls="joinForm"
+        class="mx-auto"
+        @click="() => (nexted = true)"
+      >
+        Join {{ type }}
+      </AppButton>
+    </div>
   </template>
-  <PageTeaser v-if="nexted && selected" id="#joinForm">
+  <PageTeaser v-if="nexted && selected" id="joinForm">
     <template v-slot:title> Join {{ selected.name }}</template>
     <template v-slot:content>
       <button
@@ -53,7 +55,19 @@ watch(searchValue, () => {
         class="close-btn"
         @click="() => (nexted = false)"
       >
-        X
+        <svg
+            fill="none"
+            height="16"
+            viewBox="0 0 22 22"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+          <title>Close</title>
+          <path
+              d="M13.2943 11L22 19.7057V22H19.7057L11 13.2943L2.29429 22H0V19.7057L8.70571 11L0 2.29429V0H2.29429L11 8.70571L19.7057 0H22V2.29429L13.2943 11Z"
+              fill="currentColor"
+          />
+        </svg>
       </button>
       <JoinForm :selected="selected" :type="type" />
     </template>
@@ -65,10 +79,23 @@ ul {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 87%;
+}
+#joinForm {
+   position: relative;
+ }
+.close-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  color: $white;
 }
 
-button {
-  width: 87%;
+div:not(.search-filter) {
+  width: min(75ch, 87%);
+}
+
+li {
+  list-style: none;
+  width: 100%;
 }
 </style>

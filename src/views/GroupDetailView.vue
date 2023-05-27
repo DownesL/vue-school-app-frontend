@@ -7,6 +7,8 @@ import InputField from '@/components/atoms/InputField.vue'
 import { ref } from 'vue'
 import ToggleInput from '@/components/atoms/ToggleInput.vue'
 import AppButton from '@/components/atoms/AppButton.vue'
+import MembersTab from '@/views/MembersTab.vue'
+import JoinRequestTab from '@/views/JoinRequestTab.vue'
 
 const props = defineProps({
   id: {
@@ -80,37 +82,14 @@ const trySave = async () => {
       </AppLink>
     </template>
   </PageTeaser>
-  <PageTeaser v-if="groupStore.selectedGroup?.admin">
-    <template v-slot:title>Members</template>
-    <template v-slot:content>
-      <ul v-if="groupStore.selectedGroup?.members">
-        <li v-for="u in groupStore.selectedGroup.members" :key="u.id">
-          {{ u.first_name }} {{ u.last_name }}
-        </li>
-      </ul>
-    </template>
-  </PageTeaser>
-  <!--  TODO: COLLAPSABLE SO USER MOTIVATION IS VISIBLE-->
-  <PageTeaser v-if="groupStore.selectedGroup?.admin">
-    <template v-slot:title>Join Requests</template>
-    <template v-slot:content>
-      <ul class="full-w">
-        <li
-          v-for="jr in groupStore.selectedGroup.join_requests"
-          :key="jr.id"
-          class="w-4/5 text-center pb-002 last:pb-0 bg-gradient-to-r from-c-db to-c-lb mx-auto"
-        >
-          <div class="">
-            <p>{{ jr.user.first_name }} {{ jr.user.last_name }}</p>
-            <div class="flex gap-2">
-              <button>add</button>
-              <button>reject</button>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </template>
-  </PageTeaser>
+  <MembersTab
+    v-if="groupStore.selectedGroup?.admin"
+    :members="groupStore.selectedGroup?.members as User[]"
+  />
+  <JoinRequestTab
+    v-if="groupStore.selectedGroup?.admin"
+    :join-requests="groupStore.selectedGroup?.join_requests as JoinRequest[]"
+  />
 </template>
 <style lang="scss" scoped>
 h1 {

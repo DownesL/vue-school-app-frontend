@@ -3,13 +3,6 @@ import { defineStore } from 'pinia'
 import { apiAxios } from '@/instances/apiAxios'
 import router from '@/router'
 
-interface User {
-  first_name?: string
-  last_name?: string
-  email: string
-  password?: string
-}
-
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<User>()
   const isAuthenticated = computed(() => !!user.value)

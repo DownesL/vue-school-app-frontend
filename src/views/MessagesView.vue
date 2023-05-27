@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useMessageStore } from '@/stores/message'
 import MessageTeaser from '@/components/molecules/MessageTeaser.vue'
-import { computed, watchEffect } from 'vue'
+import {computed, ref, watch} from 'vue'
 import SearchFilter from '@/components/atoms/SearchFilter.vue'
 import router from '@/router'
 import ToggleInput from '@/components/atoms/ToggleInput.vue'
@@ -53,16 +53,9 @@ const applyFilter = (arr: Message[]): Message[] =>
       ) && (messageStore.unread ? !x.message_attr?.read : true)
   )
 
-const messagesByMonth = computed<Record<string, Message[]>>(() =>
-  groupBy<Message, string>(applyFilter(messages.value), (i: Message) => {
-    if (i.created_at) {
-      return new Date(i.created_at).toLocaleDateString('en-GB', { month: 'long', year: '2-digit' })
-    }
-    return '1 Apr'
-  })
-)
-watchEffect(() => {
-  router.replace({
+const messagesByMonth = ref<Record<string, Message[]>>()
+const doSearch = () => {
+  router.push({
     name: 'messages',
     query: {
       q: messageStore.search,
@@ -70,7 +63,19 @@ watchEffect(() => {
       unread: `${messageStore.unread}`
     }
   })
+  messagesByMonth.value = groupBy<Message, string>(applyFilter(messages.value), (i: Message) => {
+    if (i.created_at) {
+      return new Date(i.created_at).toLocaleDateString('en-GB', { month: 'long', year: '2-digit' })
+    }
+    return '1 Apr'
+  })
+}
+let onInit = true
+watch(messages,() => {
+  if (onInit) doSearch();
+  onInit = !onInit
 })
+watch(messageStore, () => doSearch())
 </script>
 <template>
   <h1 class="sr-only">Messages</h1>
@@ -87,9 +92,17 @@ watchEffect(() => {
   </section>
 </template>
 <style lang="scss" scoped>
+label:nth-of-type(2) {
+  padding-left: 1rem;
+}
+
 section {
-  width: 87%;
+  width: min(75ch, 87%);
   margin-inline: auto;
+
+  &:first-of-type {
+    margin-top: 1rem;
+  }
 
   h2 {
     margin-left: $c;

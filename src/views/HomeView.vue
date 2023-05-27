@@ -15,52 +15,54 @@ groupStore.getUserGroups()
 
 <template>
   <h1>Home</h1>
-  <PageTeaser v-if="!groupStore.userGroups?.length">
-    <template v-slot:title> Messages</template>
-    <template v-slot:content>
-      <p class="text-center my-2">Wow, so empty! Seems like you don't belong to a group yet!</p>
-      <AppLink :url="{ name: 'groups' }">Join a group</AppLink>
+  <div>
+    <PageTeaser v-if="!groupStore.userGroups?.length">
+      <template v-slot:title> Messages</template>
+      <template v-slot:content>
+        <p class="text-center my-2">Wow, so empty! Seems like you don't belong to a group yet!</p>
+        <AppLink :url="{ name: 'groups' }">Join a group</AppLink>
+      </template>
+    </PageTeaser>
+
+    <template v-else>
+      <PageTeaser>
+        <template v-slot:title>Recent Messages</template>
+        <template v-slot:content>
+          <p v-if="!messageStore.recentMessages?.length" class="text-center my-2">
+            Wow, so empty! Seems like you don’t have any recent messages!
+          </p>
+          <template v-else>
+            <ul>
+              <MessageTeaser v-for="m in messageStore.recentMessages" :key="m.id" :item="m" />
+            </ul>
+          </template>
+          <AppLink :url="{ name: 'messages' }">View Messages</AppLink>
+        </template>
+      </PageTeaser>
+
+      <PageTeaser>
+        <template v-slot:title> Flagged Messages</template>
+        <template v-slot:content>
+          <template v-if="messageStore.flaggedMessages?.length">
+            <ul>
+              <MessageTeaser
+                v-for="m in messageStore.flaggedMessages.slice(
+                  0,
+                  Math.min(3, messageStore.flaggedMessages.length)
+                )"
+                :key="m.id"
+                :item="m"
+              />
+            </ul>
+          </template>
+          <p v-else>You have no flagged messages!</p>
+          <AppLink :url="{ name: 'messages', query: { flagged: true } }"
+            >View flagged messages
+          </AppLink>
+        </template>
+      </PageTeaser>
     </template>
-  </PageTeaser>
-
-  <template v-else>
-    <PageTeaser>
-      <template v-slot:title>Recent Messages</template>
-      <template v-slot:content>
-        <p v-if="!messageStore.recentMessages?.length" class="text-center my-2">
-          Wow, so empty! Seems like you don’t have any recent messages!
-        </p>
-        <template v-else>
-          <ul>
-            <MessageTeaser v-for="m in messageStore.recentMessages" :key="m.id" :item="m" />
-          </ul>
-        </template>
-        <AppLink :url="{ name: 'messages' }">View Messages</AppLink>
-      </template>
-    </PageTeaser>
-
-    <PageTeaser>
-      <template v-slot:title> Flagged Messages</template>
-      <template v-slot:content>
-        <template v-if="messageStore.flaggedMessages?.length">
-          <ul>
-            <MessageTeaser
-              v-for="m in messageStore.flaggedMessages.slice(
-                0,
-                Math.min(3, messageStore.flaggedMessages.length)
-              )"
-              :key="m.id"
-              :item="m"
-            />
-          </ul>
-        </template>
-        <p v-else>You have no flagged messages!</p>
-        <AppLink :url="{ name: 'messages', query: { flagged: true } }"
-          >View flagged messages
-        </AppLink>
-      </template>
-    </PageTeaser>
-  </template>
+  </div>
 </template>
 <style lang="scss" scoped>
 ul {
@@ -68,5 +70,17 @@ ul {
   padding: 0;
   margin: 0;
   width: 100%;
+}
+
+div {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  @media (min-width: 1080px) {
+    width: 80%;
+    margin-inline: auto;
+    gap: 2rem;
+  }
 }
 </style>

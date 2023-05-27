@@ -16,8 +16,9 @@ section {
   justify-content: center;
   align-items: center;
   margin: $e auto;
-  width: 87%;
   border-radius: 16px;
   padding: $d;
+  width: min(55ch, 87%);
+  height: fit-content;
 }
 </style>

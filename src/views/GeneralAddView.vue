@@ -1,17 +1,12 @@
 <script lang="ts" setup>
 import InputField from '@/components/atoms/InputField.vue'
-import { computed, reactive, ref } from 'vue'
+import { computed, ref } from 'vue'
 import AppButton from '@/components/atoms/AppButton.vue'
-import PageTeaser from '@/components/molecules/PageTeaser.vue'
 import AppTextArea from '@/components/atoms/AppTextArea.vue'
 import { useOrganisationStore } from '@/stores/organisation'
-import router from '@/router'
 import { useGroupStore } from '@/stores/group'
-
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import ToggleInput from '@/components/atoms/ToggleInput.vue'
-import { useMessageStore } from '@/stores/message'
-import FileInput from '@/components/atoms/FileInput.vue'
+import AppConfirmation from '@/views/AppConfirmation.vue'
+import router from '@/router'
 
 const props = defineProps({
   type: {
@@ -35,17 +30,7 @@ const nameError = ref<string>('')
 const description = ref<string>('')
 const descriptionError = ref<string>('')
 
-const important = ref<boolean>(false)
-
-const groups = ref<string[]>([])
-const groupsError = ref<string>('')
-
-const message = ref('')
-const message_file = ref<any>()
-const messageError = ref('')
-
 const confirmation = ref<boolean>(false)
-const fileUpload = ref(false)
 
 const validateGrouped = () => {
   nameError.value = ''
@@ -58,27 +43,12 @@ const validateGrouped = () => {
   }
   return !(nameError.value || descriptionError.value)
 }
-const validateMessage = () => {
-  if (!groups.value.length) {
-    groupsError.value = 'Select at least one group'
-  }
-  if (!message.value && !message_file.value) {
-    messageError.value = 'Upload or write a message'
-  }
-  const o = validateGrouped()
-  return !(nameError.value || descriptionError.value) && o
-}
 const askConfirmation = () => {
-  if (props.type === 'messages') {
-    confirmation.value = validateMessage()
-  } else {
-    confirmation.value = validateGrouped()
-  }
+  confirmation.value = validateGrouped()
 }
 const organisationStore = useOrganisationStore()
-const messageStore = useMessageStore()
 const groupStore = useGroupStore()
-if (props.type === 'messages') {
+if (parseInt(props.id) > 0) {
   organisationStore.getOrganInfo(props.id)
 }
 
@@ -87,76 +57,50 @@ const tryCreateOrgan = async () => {
     confirmation.value = false
   }
 
-  const msg = await organisationStore.createOrgan({
+  return await organisationStore.createOrgan({
     name: name.value,
     description: description.value
   })
-  if (msg?.id) {
-    router.push({ name: 'specificOrganisation', params: { id: msg.id } })
-  } else {
-    nameError.value = msg.errors.name ? msg.errors.name[0] : ''
-    descriptionError.value = msg.errors.description ? msg.errors.description[0] : ''
-    confirmation.value = false
-  }
 }
 const tryCreateGroup = async () => {
   if (!validateGrouped()) {
     confirmation.value = false
   }
-  const msg = await groupStore.createGroup({
+  return await groupStore.createGroup({
     name: name.value,
     description: description.value,
     organisation_id: parseInt(props.id)
   })
-  if (msg?.id) {
-    //router.push({ name: 'specificGroup', params: { id: msg.id } })
-  } else {
-    nameError.value = msg.errors.name ? msg.errors.name[0] : ''
-    descriptionError.value = msg.errors.description ? msg.errors.description[0] : ''
-    confirmation.value = false
-  }
 }
-const tryCreateMessages = async () => {
-  if (!validateMessage()) {
+const tryCreate = async (v: boolean) => {
+  if (!v) {
     confirmation.value = false
+    return
   }
-  const msg = await messageStore.createMessage({
-    name: name.value,
-    description: description.value,
-    important: important.value,
-    groups: groups.value,
-    content: message.value,
-    file_message: message_file.value ?? null,
-    id: parseInt(props.id)
-  })
-  if (msg?.id) {
-    router.push({ name: 'specificOrganisation', params: { id: msg.id } })
-  } else {
-    nameError.value = msg.errors.name ? msg.errors.name[0] : ''
-    descriptionError.value = msg.errors.description ? msg.errors.description[0] : ''
-    messageError.value = msg.errors.message ? msg.errors.message[0] : ''
-    messageError.value = msg.errors.message_file ? msg.errors.message_file[0] : ''
-    groupsError.value = msg.errors.groups ? msg.errors.groups[0] : ''
-    confirmation.value = false
-  }
-}
-const tryCreate = () => {
+  let msg = null
   switch (props.type) {
-    case 'organisations':
-      tryCreateOrgan()
+    case 'organisations': {
+      msg = await tryCreateOrgan()
+      if (msg?.id) {
+        await router.push({ name: 'specificOrganisation', params: { id: msg.id } })
+      }
       break
-    case 'groups':
-      tryCreateGroup()
+    }
+
+    case 'groups': {
+      msg = await tryCreateGroup()
+      if (msg?.id) {
+        await router.push({ name: 'specificGroup', params: { id: msg.id } })
+      }
       break
-    case 'messages':
-      tryCreateMessages()
-      break
+    }
+  }
+  if (!msg?.id) {
+    nameError.value = msg?.errors.name ? msg?.errors.name[0] : ''
+    descriptionError.value = msg?.errors.description ? msg?.errors.description[0] : ''
+    confirmation.value = false
   }
 }
-
-const config = reactive({
-  toolbar: ['undo', 'redo', '|', 'heading', '|', 'bold', 'italic', '|']
-})
 </script>
 <template>
   <div v-if="!confirmation" class="container">
@@ -164,51 +108,17 @@ const config = reactive({
     <form method="post" novalidate>
       <InputField v-model:value="name" :error="nameError" name="name" type="text" />
       <AppTextArea v-model:value="description" :error="descriptionError" name="description" />
-      <template v-if="type === 'messages'">
-        <ToggleInput v-model:value="important" name="important" />
-        <fieldset :class="{ error: groupsError.length }">
-          <legend>
-            Groups <span class="error" role="alert">{{ groupsError }}</span>
-          </legend>
-          <label v-for="g in organisationStore.selectedOrgan?.groups" :key="g.id" :title="g.name">
-            <input :id="g.name" v-model="groups" :value="g.name" name="group" type="checkbox" />
-            {{ g.name }}
-          </label>
-        </fieldset>
-        <ToggleInput v-model:value="fileUpload" name="uploadFile" />
-        <div v-if="!fileUpload">
-          <label for="editor"
-            >Message <span class="error" role="alert">{{ messageError }}</span></label
-          >
-          <ckeditor
-            id="editor"
-            v-model="message"
-            :config="config"
-            :editor="ClassicEditor"
-            style="color: black"
-            tag-name="textarea"
-          />
-        </div>
-        <FileInput v-else :error="messageError" :value="message_file" name="message" type="file" />
-      </template>
       <AppButton @click.prevent="askConfirmation">Create {{ type.slice(0, -1) }}</AppButton>
     </form>
   </div>
-  <PageTeaser v-else>
-    <template v-slot:title> Are you sure?</template>
-    <template v-slot:content>
-      <p>The {{ type.slice(0, -1) }} '{{ name }}' will be created.</p>
-      <AppButton @click="() => (confirmation = false)">Cancel</AppButton>
-      <AppButton @click="tryCreate">Approve</AppButton>
-    </template>
-  </PageTeaser>
+  <AppConfirmation v-else :name="name" :type="type.slice(0, -1)" @clicked="tryCreate" />
 </template>
 <style lang="scss" scoped>
 div.container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 87%;
+  width: min(75ch,87%);
 
   form {
     display: flex;

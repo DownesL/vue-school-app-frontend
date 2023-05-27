@@ -1,6 +1,6 @@
 import axios from 'axios'
-import router from '@/router'
 import { useLoading } from '@/composables/loading'
+import router from '@/router'
 
 const apiAxios = axios.create({
   baseURL: `${import.meta.env.VITE_BASE_URL}/api`,

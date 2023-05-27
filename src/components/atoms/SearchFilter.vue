@@ -8,7 +8,7 @@ defineProps({
 defineEmits(['update:search'])
 </script>
 <template>
-  <div>
+  <div class="search-filter">
     <label for="search">
       <span>Search</span>
       <svg

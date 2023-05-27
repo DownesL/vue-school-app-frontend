@@ -6,10 +6,6 @@ const props = defineProps({
     required: true,
     type: String
   },
-  type: {
-    required: true,
-    type: String
-  },
   error: {
     required: false,
     type: String || null,
@@ -22,13 +18,15 @@ const props = defineProps({
   },
   value: {
     required: true,
-    type: File || undefined
   }
 })
 // const newVal = ref<null | string>(null)
 const emit = defineEmits(['update:value'])
 const label = computed(() => props.name.replace(/(?=[A-Z])/, ' '))
-const handleChange = (e: any) => emit('update:value', e.target.value)
+const handleChange = (e: any) => {
+  emit('update:value', e.target.files[0])
+  console.log(e.target.value)
+}
 </script>
 <template>
   <div>
@@ -40,37 +38,38 @@ const handleChange = (e: any) => emit('update:value', e.target.value)
       :class="{ error: error }"
       :name="name"
       :required="required"
-      :type="type"
+      type="file"
       :value="value"
       autocomplete="false"
-      @input="handleChange"
+      @change="handleChange"
     />
   </div>
 </template>
 <style lang="scss" scoped>
-div {
+.fileInput {
   display: flex;
   flex-direction: column;
-}
-label {
-  span:first-of-type {
-    text-transform: capitalize;
+  label {
+    span:first-of-type {
+      text-transform: capitalize;
+      color: $text;
+    }
+    span:last-of-type {
+      color: $red;
+      margin-left: $c;
+    }
+  }
+  input {
+    border: solid 1px $input-border;
+    border-radius: $border-radius;
+    padding: $b $c;
+    background: $background;
     color: $text;
-  }
-  span:last-of-type {
-    color: $red;
-    margin-left: $c;
-  }
-}
-input {
-  border: solid 1px $input-border;
-  border-radius: $border-radius;
-  padding: $b $c;
-  background: $background;
-  color: $text;
-  &.error {
-    border-color: $red;
-    outline-color: red;
+    &.error {
+      border-color: $red;
+      outline-color: red;
+    }
   }
 }
+
 </style>
