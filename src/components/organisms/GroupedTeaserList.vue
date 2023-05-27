@@ -56,16 +56,16 @@ watch(searchValue, () => {
         @click="() => (nexted = false)"
       >
         <svg
-            fill="none"
-            height="16"
-            viewBox="0 0 22 22"
-            width="16"
-            xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          height="16"
+          viewBox="0 0 22 22"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
         >
           <title>Close</title>
           <path
-              d="M13.2943 11L22 19.7057V22H19.7057L11 13.2943L2.29429 22H0V19.7057L8.70571 11L0 2.29429V0H2.29429L11 8.70571L19.7057 0H22V2.29429L13.2943 11Z"
-              fill="currentColor"
+            d="M13.2943 11L22 19.7057V22H19.7057L11 13.2943L2.29429 22H0V19.7057L8.70571 11L0 2.29429V0H2.29429L11 8.70571L19.7057 0H22V2.29429L13.2943 11Z"
+            fill="currentColor"
           />
         </svg>
       </button>
@@ -81,8 +81,8 @@ ul {
   align-items: center;
 }
 #joinForm {
-   position: relative;
- }
+  position: relative;
+}
 .close-btn {
   position: absolute;
   top: 1.5rem;

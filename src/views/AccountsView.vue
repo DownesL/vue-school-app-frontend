@@ -71,7 +71,7 @@ organStore.getUserOrgans()
       </template>
     </PageTeaser>
   </div>
-    <AppButton :red="true" @click="authStore.logout()">Log Out</AppButton>
+  <AppButton :red="true" @click="authStore.logout()">Log Out</AppButton>
 </template>
 <style lang="scss" scoped>
 ul {

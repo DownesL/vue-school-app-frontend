@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type {PropType} from "vue";
-import {ref} from "vue";
+import type { PropType } from 'vue'
+import { ref } from 'vue'
 
 defineProps({
   jr: {
@@ -100,7 +100,6 @@ button {
       color: $background;
     }
   }
-
 }
 
 h1 {

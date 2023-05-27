@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useMessageStore } from '@/stores/message'
 import MessageTeaser from '@/components/molecules/MessageTeaser.vue'
-import {computed, ref, watch} from 'vue'
+import { computed, ref, watch } from 'vue'
 import SearchFilter from '@/components/atoms/SearchFilter.vue'
 import router from '@/router'
 import ToggleInput from '@/components/atoms/ToggleInput.vue'
@@ -71,8 +71,8 @@ const doSearch = () => {
   })
 }
 let onInit = true
-watch(messages,() => {
-  if (onInit) doSearch();
+watch(messages, () => {
+  if (onInit) doSearch()
   onInit = !onInit
 })
 watch(messageStore, () => doSearch())

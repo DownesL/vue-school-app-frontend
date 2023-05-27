@@ -14,9 +14,7 @@ defineProps({
     <template v-slot:title>Members</template>
     <template v-slot:content>
       <ul class="w-full" v-if="members?.length">
-        <li v-for="g in members" :key="g.id">
-          {{ g.first_name }} {{ g.last_name }}
-        </li>
+        <li v-for="g in members" :key="g.id">{{ g.first_name }} {{ g.last_name }}</li>
       </ul>
       <p v-else>No members joined yet</p>
     </template>

@@ -17,7 +17,7 @@ const props = defineProps({
     default: true
   },
   value: {
-    required: true,
+    required: true
   }
 })
 // const newVal = ref<null | string>(null)
@@ -71,5 +71,4 @@ const handleChange = (e: any) => {
     }
   }
 }
-
 </style>

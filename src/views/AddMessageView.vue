@@ -166,7 +166,7 @@ div.container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: min(75ch,87%);
+  width: min(75ch, 87%);
 
   form {
     display: flex;

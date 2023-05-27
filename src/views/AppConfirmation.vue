@@ -1,6 +1,6 @@
 <script setup>
-import AppButton from "@/components/atoms/AppButton.vue";
-import PageTeaser from "@/components/molecules/PageTeaser.vue";
+import AppButton from '@/components/atoms/AppButton.vue'
+import PageTeaser from '@/components/molecules/PageTeaser.vue'
 
 defineProps({
   name: {
