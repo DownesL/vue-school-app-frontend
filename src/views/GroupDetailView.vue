@@ -68,7 +68,10 @@ const trySave = async () => {
       </template>
     </template>
   </PageTeaser>
-  <MessagesTab v-if="groupStore.selectedGroup?.messages" :messages="groupStore.selectedGroup?.messages as Message[]">
+  <MessagesTab
+    v-if="groupStore.selectedGroup?.messages"
+    :messages="groupStore.selectedGroup?.messages as Message[]"
+  >
     <AppLink :url="{ name: 'messages', query: { q: groupStore.selectedGroup?.name } }"
       >View Messages
     </AppLink>

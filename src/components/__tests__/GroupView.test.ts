@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import {mount, shallowMount} from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import GroupDetailView from '@/views/GroupDetailView.vue'
 import { createTestingPinia } from '@pinia/testing'
 import MessageTeaser from '../molecules/MessageTeaser.vue'

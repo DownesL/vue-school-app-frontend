@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import MessageTeaser from '@/components/molecules/MessageTeaser.vue'
 import PageTeaser from '@/components/molecules/PageTeaser.vue'
-import type {PropType} from "vue";
+import type { PropType } from 'vue'
 
 defineProps({
   messages: {
