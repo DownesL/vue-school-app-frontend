@@ -2,12 +2,12 @@
 import PageTeaser from '@/components/molecules/PageTeaser.vue'
 import { useGroupStore } from '@/stores/group'
 import InputField from '@/components/atoms/InputField.vue'
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import ToggleInput from '@/components/atoms/ToggleInput.vue'
 import AppButton from '@/components/atoms/AppButton.vue'
-import MembersTab from '@/views/MembersTab.vue'
-import JoinRequestTab from '@/views/JoinRequestTab.vue'
-import MessagesTab from '@/views/MessagesTab.vue'
+import MembersTab from '@/components/organisms/MembersTab.vue'
+import JoinRequestTab from '@/components/organisms/JoinRequestTab.vue'
+import MessagesTab from '@/components/organisms/MessagesTab.vue'
 import AppLink from '@/components/atoms/AppLink.vue'
 
 const props = defineProps({
@@ -19,9 +19,9 @@ const props = defineProps({
 const groupStore = useGroupStore()
 groupStore.getGroupInfo(props.id)
 
-const alias = ref<string>(groupStore.selectedGroup?.group_attr?.alias ?? '')
+const alias = ref<string>('')
 const aliasError = ref<string>('')
-const colour = ref<string>(groupStore.selectedGroup?.group_attr?.colour ?? '')
+const colour = ref<string>('')
 const colourError = ref<string>('')
 const editable = ref<boolean>(false)
 
@@ -39,6 +39,10 @@ const trySave = async () => {
     window.location.assign(window.location.href)
   }
 }
+watchEffect(() => {
+  colour.value = groupStore.selectedGroup?.group_attr?.colour ?? ''
+  alias.value = groupStore.selectedGroup?.group_attr?.alias ?? ''
+})
 </script>
 <template>
   <h1>Group {{ groupStore.selectedGroup?.name }}: Detail Page</h1>
@@ -50,7 +54,7 @@ const trySave = async () => {
         <ToggleInput v-model:value="editable" name="Edit" />
         <template v-if="!editable">
           <p>Alias: {{ groupStore.selectedGroup?.group_attr?.alias ?? 'none' }}</p>
-          <label for="groupColour">Group Colour:</label>
+          <span>Group Colour:</span>
           <div
             :style="{ backgroundColor: groupStore.selectedGroup?.group_attr?.colour }"
             :title="groupStore.selectedGroup?.group_attr?.colour"
@@ -59,10 +63,14 @@ const trySave = async () => {
         </template>
         <form v-else novalidate>
           <InputField v-model:value="alias" :error="aliasError" name="alias" type="text" />
-          <label for="groupColour"
-            >Colour: <span class="error" role="alert">{{ colourError }}</span></label
-          >
-          <input id="groupColour" v-model="colour" name="groupColour" type="color" />
+          <div>
+            <label for="groupColour"
+              >Colour: <span class="error" role="alert">{{ colourError }}</span></label
+            >
+            <span>
+              <input id="groupColour" v-model="colour" name="groupColour" type="color" />
+            </span>
+          </div>
           <AppButton type="submit" @click.prevent="trySave">Save</AppButton>
         </form>
       </template>
@@ -77,8 +85,8 @@ const trySave = async () => {
     </AppLink>
   </MessagesTab>
   <MembersTab
-    v-if="groupStore.selectedGroup?.admin"
-    :members="groupStore.selectedGroup?.members as User[]"
+    v-if="groupStore.selectedGroup?.admin && groupStore.selectedGroup.members"
+    :members="groupStore.selectedGroup.members as User[]"
   />
   <JoinRequestTab
     v-if="groupStore.selectedGroup?.admin"
@@ -103,5 +111,29 @@ h2 {
 .organName {
   color: $white-dark;
   order: -1;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+label + span {
+  display: inline-block;
+  width: 3rem;
+  height: 1.2em;
+  margin: 4px 4px -2px;
+  overflow: hidden;
+  border-radius: $border-radius;
+  &:focus-within {
+    border: 2px solid blue;
+    outline: 2px solid white;
+    outline-offset: 1px;
+  }
+
+  input {
+    scale: 2;
+  }
 }
 </style>

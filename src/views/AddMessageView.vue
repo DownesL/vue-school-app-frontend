@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import ToggleInput from '@/components/atoms/ToggleInput.vue'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import router from '@/router'
 import { useMessageStore } from '@/stores/message'
 import { useOrganisationStore } from '@/stores/organisation'
 import InputField from '@/components/atoms/InputField.vue'
 import AppTextArea from '@/components/atoms/AppTextArea.vue'
 import AppButton from '@/components/atoms/AppButton.vue'
-import AppConfirmation from '@/views/AppConfirmation.vue'
+import AppConfirmation from '@/components/molecules/AppConfirmation.vue'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 const props = defineProps({
   id: {
@@ -82,12 +82,12 @@ const tryCreateMessages = async (v: Boolean) => {
     description: description.value,
     important: important.value,
     groups: groups.value,
-    content: message.value,
+    content: message.value ? message.value.replace('pre', 'strong') : '',
     filename: filename.value ?? null,
     id: parseInt(props.id)
   })
   if (msg?.id) {
-    router.push({ name: 'specificOrganisation', params: { id: msg.id } })
+    await router.push({ name: 'specificOrganisation', params: { id: msg.id } })
   } else {
     nameError.value = msg.errors.name ? msg.errors.name[0] : ''
     descriptionError.value = msg.errors.description ? msg.errors.description[0] : ''
@@ -183,9 +183,11 @@ div.container {
       color: red;
       padding-left: $b;
     }
+
     button {
       margin-bottom: 4rem;
     }
+
     fieldset {
       display: grid;
       grid-template-columns: repeat(4, 1fr);

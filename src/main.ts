@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, defineAsyncComponent } from 'vue'
 import { createPinia } from 'pinia'
 import CKEditor from '@ckeditor/ckeditor5-vue'
 import router from './router'

@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 import AppButton from '@/components/atoms/AppButton.vue'
 import PageTeaser from '@/components/molecules/PageTeaser.vue'
 
@@ -13,7 +13,7 @@ defineProps({
   }
 })
 const emit = defineEmits(['clicked'])
-const handleClick = (v) => {
+const handleClick = (v: boolean) => {
   emit('clicked', v)
 }
 </script>

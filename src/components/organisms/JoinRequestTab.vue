@@ -2,7 +2,7 @@
 import PageTeaser from '@/components/molecules/PageTeaser.vue'
 import type { PropType } from 'vue'
 import { apiAxios } from '@/instances/apiAxios'
-import JoinRequest from '@/views/JoinRequest.vue'
+import JoinRequest from '@/components/molecules/JoinRequest.vue'
 
 defineProps({
   joinRequests: {

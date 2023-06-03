@@ -68,13 +68,7 @@ declare global {
     group_attr: GroupAttributes
     admin?: boolean
     join_requests: JoinRequest[]
-    members?: [
-      {
-        id: number
-        first_name: string
-        last_name: string
-      }
-    ]
+    members?: User[]
   }
 
   interface Filters {

@@ -3,8 +3,8 @@ import PageTeaser from '@/components/molecules/PageTeaser.vue'
 import GroupedTeaser from '@/components/molecules/GroupedTeaser.vue'
 import { useOrganisationStore } from '@/stores/organisation'
 import AppLink from '@/components/atoms/AppLink.vue'
-import MembersTab from '@/views/MembersTab.vue'
-import JoinRequestTab from '@/views/JoinRequestTab.vue'
+import MembersTab from '@/components/organisms/MembersTab.vue'
+import JoinRequestTab from '@/components/organisms/JoinRequestTab.vue'
 
 const props = defineProps({
   id: {
@@ -29,7 +29,7 @@ const updateSelected = (v: Organisation) => {
   <PageTeaser>
     <template v-slot:title>Groups</template>
     <template v-slot:content>
-      <ul v-if="organisationStore.selectedOrgan?.groups" class="w-full">
+      <ul v-if="organisationStore.selectedOrgan?.groups.length" class="w-full">
         <GroupedTeaser
           v-for="g in organisationStore.selectedOrgan?.groups"
           :key="g.id"

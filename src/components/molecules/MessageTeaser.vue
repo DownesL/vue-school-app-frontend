@@ -109,7 +109,7 @@ li {
 
     h3,
     p {
-      color: $gray;
+      color: $white-dark;
       grid-row-start: 1;
       overflow: hidden;
       text-overflow: ellipsis;

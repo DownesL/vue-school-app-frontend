@@ -4,7 +4,7 @@ import { useMessageStore } from '@/stores/message'
 import MessageTeaser from '@/components/molecules/MessageTeaser.vue'
 import AppLink from '@/components/atoms/AppLink.vue'
 import { useGroupStore } from '@/stores/group'
-import MessagesTab from '@/views/MessagesTab.vue'
+import MessagesTab from '@/components/organisms/MessagesTab.vue'
 
 const messageStore = useMessageStore()
 const groupStore = useGroupStore()

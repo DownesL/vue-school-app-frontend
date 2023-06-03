@@ -41,7 +41,7 @@ object {
 
 .text-container {
   margin-inline: 1.5rem;
-  max-width: 75ch;
+  width: min(93%, 75ch);
   position: relative;
   display: flex;
   flex-direction: column;

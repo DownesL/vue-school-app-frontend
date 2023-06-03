@@ -5,7 +5,7 @@ import AppButton from '@/components/atoms/AppButton.vue'
 import AppTextArea from '@/components/atoms/AppTextArea.vue'
 import { useOrganisationStore } from '@/stores/organisation'
 import { useGroupStore } from '@/stores/group'
-import AppConfirmation from '@/views/AppConfirmation.vue'
+import AppConfirmation from '@/components/molecules/AppConfirmation.vue'
 import router from '@/router'
 
 const props = defineProps({

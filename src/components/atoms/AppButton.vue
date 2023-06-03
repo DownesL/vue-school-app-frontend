@@ -35,10 +35,10 @@ button {
   &:hover,
   &:focus {
     background: $purple;
-    //color: $white;
   }
 
   &.red {
+    $red: #d31515;
     background: $red;
     color: $white;
 
