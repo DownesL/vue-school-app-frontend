@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from 'vitest'
 
 import { shallowMount } from '@vue/test-utils'
-import GroupDetailView from '@/views/GroupDetailView.vue'
+import GroupDetailView from '../src/views/GroupDetailView.vue'
 import { createTestingPinia } from '@pinia/testing'
-import MessageTeaser from '../molecules/MessageTeaser.vue'
+import MessageTeaser from '../src/components/molecules/MessageTeaser.vue'
 
 describe('GroupView', () => {
   it('renders properly', () => {
