@@ -34,7 +34,7 @@ const tryLogin = async () => {
 
   if (!authError.value) {
     localStorage.setItem('user', JSON.stringify({ email: email.value, password: password.value }))
-    await router.push({name: 'home'})
+    await router.push({ name: 'home' })
   } else {
     password.value = ''
   }
@@ -50,7 +50,7 @@ const tryLogin = async () => {
   </form>
   <p>
     No account yet?
-    <router-link :to="{name: 'register'}">Register here</router-link>
+    <router-link :to="{ name: 'register' }">Register here</router-link>
   </p>
 </template>
 <style lang="scss" scoped>
